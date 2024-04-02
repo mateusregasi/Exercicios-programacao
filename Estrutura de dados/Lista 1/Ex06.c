@@ -23,7 +23,8 @@ typedef struct fila{
 TAB *vet2ab(int *vet, int n);
 TAB *cria(int info, TAB *esq, TAB *dir);
 TAB imprime(TAB *a);
-TAB *retira_pares(TAB* arv);
+TAB *retira_pares(TAB *arv);
+TAB *retira(TAB *a, int *folha);
 
 // (Q6) uma função em C que, dada uma árvore binária qualquer, retire todos os elementos pares da
 // árvore original. A função deve ter o seguinte protótipo: 
@@ -40,7 +41,7 @@ int main(void){
 
 TAB imprime(TAB *a){
 	if(a){
-		printf("%d", a->info);
+		printf("%d ", a->info);
 		imprime(a->esq);
 		imprime(a->dir);
 	}
@@ -57,72 +58,35 @@ TAB *vet2ab(int *vet, int n){
     return criar(vet[n/2], vet2ab(vet, n/2), vet2ab(&vet[n/2+1], n-n/2-1));
 }
 
-FI *f_inicializa(){
-    FI *f = (FI *) malloc(sizeof(FI));
-    f->ini = f->fim = NULL;
-    return f;
+TAB *retira(TAB *a, int *folha){
+	if(!a) return a;
+	if((!a->esq) && (!a->dir)){
+		(*folha) = a->info;
+		free(a);
+		return NULL;
+	}
+	if(a->esq) a->esq = retira(a->esq, folha);
+	else a->dir = retira(a->dir, folha);
+	return a;
 }
-int f_vazia(FI *f){
-    return (f->ini) ? 1 : 0;
-}
-FI *f_ins(FI *f, TAB *v){
-    NO *n = (NO *) malloc(sizeof(NO));
-    n->dado = (TAB *) v;
-    n->prox = f->ini;
-    if(f->fim == NULL) f->fim = f->ini;
-    f->ini = n;
-    return f;
-}
-TAB *f_ret(FI *f){
-    if(f_vazia(f)) return NULL;
-    NO *r = f->ini;
-    f->ini = r->prox;
-    if(f->ini == NULL) f->fim = NULL;
-    TAB *v = r->dado;
-    free(r);
-    return v;
-}
-void f_free(FI *f){
-    free(f);
-}
-
-
 TAB *retira_pares(TAB *arv){
-    if(arv){
-        arv->esq = retira_pares(arv->esq);
-        arv->dir = retira_pares(arv->dir);
+	if(!arv) return arv;
 
-        if(arv->info % 2 == 0){
-            TAB *r = arv;
-            TAB *add;
+	if((!arv->esq) && (!arv->dir)){
+		if(arv->info % 2) return arv;
+		free(arv);
+		return NULL;
 
-            if(r->esq){
-                arv = r->esq;
-                add = r->dir;
-            } else{
-                arv = r->dir;
-                add = r->esq;
-            }
-            free(r);
+	} if((arv->info % 2 ) == 0){
+		int x;
+		arv = retira(arv, &x);
+		arv->info = x;
+		arv = retira_pares(arv);
 
-            FI *f = f_inicializa();
-            f_ins(f, arv);
-            while(!f_vazia(f)){
-                TAB *aux = f_ret(f);
-                if(!aux->esq){
-                    aux->esq = add;
-                    break;
-                }
-                if(!aux->dir){
-                    aux->dir = add;
-                    break;
-                }
-                f_ins(f, aux->esq);
-                f_ins(f, aux->dir);
-            }
-            f_free(f);
-        }
-    }
-    return arv;
+	} else{
+		arv->esq = retira_pares(arv->esq);
+		arv->dir = retira_pares(arv->dir);
+	}
+	return arv;
 }
 
