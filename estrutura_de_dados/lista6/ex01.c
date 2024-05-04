@@ -3,7 +3,9 @@
 #define MAX_CHAR 10
 
 // Funções auxiliares
+void imp_arqb_na(char *nome);
 void imp_arqb(char *nome);
+void imp_n_arqb(char *nome, int max_reg);
 void ver_arqb(char *nome);
 int len_arqb(FILE *f);
 int len_arqb_na(char *nome);
@@ -35,7 +37,7 @@ int main(void){
     prod_cart_arqb("a.bin", "b.bin", "c.bin");
 
     // Printa o terceiro arquivo
-    imp_arqb("c.bin");
+    imp_n_arqb("c.bin", MAX_CHAR * 2 + 2);
     printf("\n");
 
     return 0;
@@ -46,17 +48,18 @@ void ver_arqb(char *nome){
     FILE *arq = fopen(nome, "ab");
     fclose(arq);
 }
-int len_arqb(FILE *f){
+int len_n_arqb(FILE *f, int max_reg){
     fseek(f, 0, SEEK_END);
-    int n = ftell(f) / (sizeof(char) * (MAX_CHAR +1));
+    int n = ftell(f) / (sizeof(char) * max_reg);
     fseek(f, 0, SEEK_SET);
     return n;
 }
+int len_arqb(FILE *f){
+    len_n_arqb(f, MAX_CHAR+1);
+}
 int len_arqb_na(char *nome){
     FILE *f = fopen(nome, "rb");
-    if(!f) return 0;
-    fseek(f, 0, SEEK_END);
-    int n = ftell(f) / (sizeof(char) * (MAX_CHAR +1));
+    int n = len_n_arqb(f, (MAX_CHAR+1));
     fclose(f);
     return n;
 }
@@ -78,26 +81,29 @@ char **arqb2vet(char *nome){
     char **vet = (char **) malloc(sizeof(char *) * n);
     for(int i=0; i<n; i++){
         char *palavra = (char *) malloc(sizeof(char) * (MAX_CHAR+1));
-        fread(palavra, sizeof(char), 1, f);
+        fread(palavra, sizeof(char), (MAX_CHAR+1), f);
         vet[i] = palavra;
     }
 
     fclose(f);
     return vet;
 }
-void imp_arqb(char *nome){
+void imp_n_arqb(char *nome, int max_reg){
     FILE *f = fopen(nome, "rb");
     if(!f) return;
 
     // Lê palavra por palavra e printa
-    int n = len_arqb(f);
-    char *palavra = (char *) malloc(sizeof(char) * (MAX_CHAR+1));
+    int n = len_n_arqb(f, max_reg);
+    char *palavra = (char *) malloc(sizeof(char) * max_reg);
     for(int i=0; i<n; i++){
-        fread(palavra, sizeof(char) * (MAX_CHAR+1), 1, f);
+        fread(palavra, sizeof(char) * max_reg, 1, f);
         printf("%s\n", palavra);
     }
-
+    
     fclose(f);
+}
+void imp_arqb(char *nome){
+    imp_n_arqb(nome, (MAX_CHAR+1));
 }
 void imp_vet(char **vet, int n){
     for(int i=0; i<n; i++)
@@ -117,9 +123,6 @@ void prod_cart_arqb(char *arq1, char *arq2, char *arq3){
     // Conta a quantidade de elementos em cada arquivo
     int n1 = len_arqb_na("a.bin"),
         n2 = len_arqb_na("b.bin");
-
-    imp_vet(vet1, n1);
-    imp_vet(vet2, n2);
 
     // Conta a quantidade máxima de caracteres em cada registro
     int max_reg = MAX_CHAR * 2 + 2; 
