@@ -139,10 +139,3 @@ void prod_cart_arqb(char *arq1, char *arq2, char *arq3){
     // Fecha o arquivo
     fclose(f);
 }
-
-
-
-
-// (Q2) Escreva um programa em C que receba como entrada um arquivo binário de clientes “clientes.bin” e, sem ler todos os registros para memória, permita a consulta dos dados de um cliente em função do seu CPF. Considere que o formato de cada registro é dado pelos seguintes campos: nome – char (40), CPF – char(11), conta_corrente (int), agencia (int), saldo (float).
-
-// (Q3) Escreva um programa em C que receba o arquivo de clientes do exercício Q2 e produza um arquivo binário de índices “indices.bin”, onde a sequência dos índices descreve os registros do arquivo de clientes ordenados pelo saldo.
