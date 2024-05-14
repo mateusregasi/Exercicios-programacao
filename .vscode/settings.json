@@ -1,10 +1,5 @@
 {
     "files.associations": {
-        "random": "c",
-        "stdlib.h": "c",
-        "string.h": "c",
-        "string": "c",
-        "sstream": "c",
-        "regex": "c"
+        "random": "c"
     }
 }
