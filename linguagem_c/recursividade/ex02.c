@@ -2,8 +2,7 @@
 
 int res(int n, int k){
     if(n == 1) return 0;
-    int w = (res(n - 1, k) + k) % n;
-    return w;
+    return (res(n - 1, k) + k) % n;
 }
 
 int main(void){
