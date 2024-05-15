@@ -31,46 +31,13 @@ NO *retf(NO *f, int *v);
 int buscal(NO *l, int v);
 void libl(NO *l);
 NO *insp(NO *p, int v);
-int cmpfim(NO *f1, NO *f1);
+int cmpfim(NO *f1, NO *f2);
 void impf(NO *f);
+int cmpfimn(NO *f, int n);
 
 //Função do exercício
-NO *procura(NO *f, GR *g, int atual, int dest){
-
-	// Verifica se o atual já está na fila
-	if(buscal(f, atual));
-		return f;
-	
-	// Coloca o atual no fundo da fila
-	f = insf(f, t->dado);
-
-	// Se o atual já for o destino
-	if(atual == dest)
-		return f;
-
-	// Varre os vizinhos até encontrar um caminho
-	VIZ *v = busca(g, atual)->viz;
-	NO *a;
-	int c;
-	while(v){
-		a = procura(f, g, v->dado, dest);
-		c = cmpfim(a, g);
-		if(!c) break;
-		v = v->prox;
-	}
-
-	// Se achou retorna
-	if(c) return f;
-
-	// Se não desaloca o final atual e retorna
-	retf(f);
-	return f;
-}
-TLSE *caminho(TG *g, int x, int y){
-
-	// Chama o algoritmo de procura
-	return procura(NULL, g, x, y);
-}
+NO *procura(NO *f, GR *g, int atual, int dest);
+NO *caminho(GR *g, int x, int y);
 
 int main(void){
 
@@ -201,10 +168,14 @@ void libl(NO *l){
 		free(r);
 	}
 }
-int cmpfim(NO *f1, NO *f1){
+int cmpfim(NO *f1, NO *f2){
 	while(f1->prox) f1 = f1->prox;
 	while(f2->prox) f2 = f2->prox;
 	return f1 == f2;
+}
+int cmpfimn(NO *f, int n){
+	while(f->prox) f = f->prox;
+	return n == f->dado;
 }
 void impf(NO *f){
 	while(f){
@@ -215,3 +186,38 @@ void impf(NO *f){
 }
 
 // Função do exercício
+NO *procura(NO *f, GR *g, int atual, int dest){
+
+	// Verifica se o atual já está na fila
+	if(buscal(f, atual))
+		return NULL;
+	
+	// Aloca o último elemento
+	f = insf(f, atual);
+
+	// Se o atual já for o destino
+	if(atual == dest)
+		return f;
+
+	// Varre os vizinhos até encontrar um caminho
+	VIZ *v = busca(g, atual)->viz;
+	int c;
+	NO *r;
+	while(v){
+		r = procura(f, g, v->dado, dest);
+		if(r) break;
+		v = v->prox;
+	}
+
+	// Se achou retorna
+	if(r) return f;
+
+	// Se não desaloca o final atual e retorna
+	retf(f, NULL);
+	return NULL;
+}
+NO *caminho(GR *g, int x, int y){
+
+	// Chama o algoritmo de procura
+	return procura(NULL, g, x, y);
+}
