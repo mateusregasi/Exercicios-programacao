@@ -13,8 +13,9 @@ typedef struct node{
 void imp_vet(int *vet, int n);
 int get_minor_vet(int *vet, int n);
 char *create_partition_name(char *nome, char *conome, int i);
+char *create_name(char *nome, char *conome);
 int get_from_opened_file(FILE *f);
-int put_n_file(char *nome, int v, int n);
+void put_n_file(char *nome, int v, int n);
 int file_empty(FILE *f);
 void copy_n_arq2vet(int *vet, int n, int *i, char *nome);
 void get_opened_arq2vet(int *vet, int n, int *i, FILE *f);
@@ -22,9 +23,9 @@ void get_opened_arq2vet(int *vet, int n, int *i, FILE *f);
 void selecao_natural(char *nome){
 	FILE *fr;
 	int num_max_vet, num_part, i, num_vet, 
-		n, menor, num_res, i_arq,
+		n, menor, i_res, i_arq, i_part,
 		*vet;
-	char *nome_part;
+	char *nome_part, *nome_res;
 
 	// Abre o arquivo
 	fr = fopen(nome, "r");
@@ -32,36 +33,40 @@ void selecao_natural(char *nome){
 	// Verifica se o arquivo está vazio
 	printf("Verificando a situação do arquivo: ");
 	if(!fr){
-		printf("o arquivo não existe\n");
+		printf("o arquivo não existe\n\n");
 		return;
 	} else if(file_empty(fr)){
-		printf("o arquivo está vazio\n");
+		printf("o arquivo está vazio\n\n");
 		return;
 	}
-	printf("o arquivo foi aberto\n");
+	printf("o arquivo foi aberto\n\n");
 
 	// Calcula o tamanho máximo do vetor
 	num_max_vet = calc_tam_vet(sizeof(int));
-	printf("Tamanho máximo do vetor: %d\n", num_max_vet);
+	printf("Tamanho máximo do vetor: %d\n\n", num_max_vet);
 
 	// Aloca o vetor principal
 	vet = (int *) malloc(sizeof(int) * num_max_vet);
 
+	// Gera o nome do arquivo de reservatório
+	nome_res = create_name(nome, ".res");
+
 	// Loop principal
 	i_arq = 0;
+	i_part = 0;
+	i_res = 0;
 	num_part = 0;
-	while(!feof(fr)){
+	while(!feof(fr) && num_part < 10){ // Retirar a segunda condição
 
-		// Gera o nome da partição
+		// // Gera o nome da partição
 		nome_part = create_partition_name(nome, "_part_", num_part);
-		num_part++;
 
 		// Carrega as coisas no vetor principal
 		if(num_part == 0){
 			get_opened_arq2vet(vet, num_max_vet, &num_vet, fr);
 			i_arq += num_vet;
-		} else copy_n_arq2vet(vet, num_max_vet, &num_vet, nome_part);
-
+		} else copy_n_arq2vet(vet, num_max_vet, &num_vet, nome_res);
+		
 		do{
 
 			// Pega o menor elemento do vetor
@@ -69,26 +74,49 @@ void selecao_natural(char *nome){
 			num_vet--;
 
 			// Coloca o elemento dentro da partição
-			put_n_file(nome, menor, i_arq);
-			i_arq++;
+			put_n_file(nome_part, menor, i_part);
+			i_part++;
 
-			// Pega um elemento dentro do arquivo de leitura
-			n = get_from_opened_file(fr);
-
-			// Se o elemento pego for menor que o novo menor congela
+			// Pega o novo menor
 			menor = get_minor_vet(vet, num_vet);
-			num_vet--;
-			if(n < vet){
 
-				
+			while(1){
 
-			} else{
+				// Pega um elemento dentro do arquivo de leitura
+				n = get_from_opened_file(fr);
 
+				// Se ele for menor que o menor que o menor
+				if(n < menor){
+					printf("-> Congela o número %d\n", n);
+					put_n_file(nome_res, n, i_res);
+					i_res++;
+					if((i_res == num_max_vet) || feof(fr)) break;
+				} else break;
 			}
 
-		} while(!feof(fr) && (num_res < num_max_vet));
+			// Se o elemento for maior ou igual adiciona ele na última posição do vetor
+			if(n >= menor){
+				printf("Adicionando %d na posição %d do vetor\n", n, num_vet);
+				vet[num_vet] = n;
+				num_vet++;
+			}
+
+		// // Continua esse loop até chegar no final do arquivo ou encher o repositório
+		} while(!feof(fr) && (i_res < num_max_vet));
+		printf("Fim de arquivo ou reservatŕoio cheio!!\n\n");
+
+		// Descarrega o vetor
+		while(num_vet > 0){
+			printf("Descarregando o vetor:\n");
+			menor = get_minor_vet(vet, num_vet);
+			num_vet--;
+			put_n_file(nome_res, menor, i_part);
+			i_part++;
+		}
+		printf("\n\n");
 
 
+		num_part++;
 	}
 
 	// Fecha o arquivo
@@ -108,15 +136,15 @@ int get_minor_vet(int *vet, int n){
 	for(int i=1; i<n; i++)
 		if(vet[i] < vet[menor])
 			menor = i;
-	if((menor != 0) && (menor != n-1)){
+	if(menor != n-1){
 		int t = vet[n-1];
 		vet[n-1] = vet[menor];
-		vet[menor] = vet[n-1];
+		vet[menor] = t;
 	}
-	printf("Analisando o vetor: ");
+	printf("Analisando os %d elementos do vetor: ", n);
 	imp_vet(vet, n);
-	printf("Menor elemento: %d\n", menor);
-	return menor;
+	printf("Menor elemento: %d\n", vet[n-1]);
+	return vet[n-1];
 }
 char *create_partition_name(char *nome, char *conome, int i){
 	int n = 13 + strlen(nome) + strlen(conome);
@@ -128,6 +156,14 @@ char *create_partition_name(char *nome, char *conome, int i){
 	strcat(nome_completo, num);
 	free(num);
 	printf("Criando a partição %s\n", nome_completo);
+	return nome_completo;
+}
+char *create_name(char *nome, char *conome){
+	int n = strlen(nome) + strlen(conome);
+	char *nome_completo = (char *) malloc(sizeof(char) * n);
+	strcpy(nome_completo, nome);
+	strcat(nome_completo, conome);
+	printf("Criando o reservatório %s\n", nome_completo);
 	return nome_completo;
 }
 void imp_vet(int *vet, int n){
@@ -168,5 +204,13 @@ void get_opened_arq2vet(int *vet, int n, int *i, FILE *f){
 		vet[j] = x;
 	}
 	*i = j;
+	printf("O vetor tem %d elementos\n", j);
 	imp_vet(vet, j);
+}
+void put_n_file(char *nome, int v, int n){
+	printf("Imprimindo %d na posição %d do arquivo %s\n", v, n, nome);
+	FILE *f = fopen(nome, "wb");
+	fseek(f, sizeof(int) * n, SEEK_SET);
+	fwrite(&v, sizeof(int), 1, f);
+	fclose(f);
 }

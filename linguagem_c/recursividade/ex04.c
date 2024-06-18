@@ -12,35 +12,53 @@ int cmp(int n1, int n2, int m){
         int parn1 = (n1 % 2 == 0) ? 1 : 0,
             parn2 = (n2 % 2 == 0) ? 1 : 0;
 
-        if((!parn1) && (parn2)) 
-        return -1;
-        if((parn1) && (!parn2)) 
-        return 1;
         if((!parn1) && (!parn2)) 
-        return (n1 < n2) ? 1 : -1;
+            return (n1 < n2) ? 1 : -1;
+
         if((parn1) && (parn2))
-        return (n1 < n2) ? -1 : 1;
+            return (n1 < n2) ? -1 : 1;
+        
+        return (!parn1) ? -1 : 1;
     }
 
     // Caso não haja empate
     return modn1 - modn2;
 }
-void selection_sort(int *vet, int n, int m){
-    if(n == 1) return;
 
-    int menor = 0;
-    for(int i=0; i<n; i++){
-        if(cmp(vet[menor], vet[i], m) > 0)
-            menor = i;
-    }
-    if(menor != vet[0]){
-        int t = vet[0];
-        vet[0] = vet[menor];
-        vet[menor] = t;
-    }
+// void selection_sort(int *vet, int n, int m){
+//     if(n == 1) return;
 
-    selection_sort(&vet[1], n-1, m);
-}
+//     int menor = 0;
+//     for(int i=0; i<n; i++){
+//         if(cmp(vet[menor], vet[i], m) > 0)
+//             menor = i;
+//     }
+//     if(menor != vet[0]){
+//         int t = vet[0];
+//         vet[0] = vet[menor];
+//         vet[menor] = t;
+//     }
+
+//     selection_sort(&vet[1], n-1, m);
+// }
+
+// void quick_sort(int *vet, int n, int m){
+//   if(n <= 1) return;
+//   int x = vet[0], a = 1, b = n - 1;
+//   do{
+//      while((a < n) && (cmp(vet[a], x, m) <= 0 )) a++;
+//      while(cmp(vet[b], x, m) > 0) b--;
+//      if(a < b){
+//        int temp = vet[a];
+//        vet[a++] = vet[b];
+//        vet[b--] = temp;
+//      }
+//   } while(a <= b);
+//   vet[0] = vet[b];
+//   vet[b] = x;
+//   quick_sort(vet, b,m);
+//   quick_sort(&vet[b+1], n - b - 1, m);
+// }
 
 int main(void) {
 
@@ -55,6 +73,8 @@ int main(void) {
 
         // Chama a função de ordenação
         selection_sort(vet, n, m);
+        // quick_sort(vet, n, m);
+        // qsort_r(vet, n, sizeof(int), cmp, m);
 
         // Printa o vetor
         printf("\n%d %d\n", n, m);
