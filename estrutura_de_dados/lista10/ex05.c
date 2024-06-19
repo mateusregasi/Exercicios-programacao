@@ -20,7 +20,6 @@ NO *retira_pares(NO *a, int t){
     a->filhos[i] = retira_pares(a->filhos[i], t);
     if(a->chaves[i] % 2 == 0){
         a = remova(a, a->chaves[i], t);
-        i = 0;
     }
     return a;
 }

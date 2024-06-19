@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 // Lista
 typedef struct node{
     void *dado;
