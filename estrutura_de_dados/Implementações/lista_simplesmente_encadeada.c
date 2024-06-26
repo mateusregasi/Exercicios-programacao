@@ -68,16 +68,15 @@ void imp(NO *a, impf *f){
         a = a->prox;
     }
 }
-
+NO *inv(NO *l){
+    if((!l) || (!l->prox)) return l;
+    NO *ant = l, *atual = l->prox;
+    ant->prox = NULL;
+    return inv_aux(ant, atual);
+}
 NO *inv_rec(NO *ant, NO *atual){
     NO *prox = atual->prox;
     atual->prox = ant;
     if(prox) return inv_rec(atual, prox);
     return atual;
-}
-NO *inv(NO *l){
-    if((!l) || (!l->prox)) return l;
-    NO *ant = l, *atual = l->prox;
-    ant->prox = NULL;
-    return inv_rec(ant, atual);
 }
