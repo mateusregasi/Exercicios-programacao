@@ -534,7 +534,7 @@ void *le_string(char *origem, char *destino, char separador){
     destino[n] = '\0';
     return p + 1;
 }
-TJ *le_registro_jogador(TJ *j, FILE *f, char *pais_atual){
+TJ *le_registro_jogador(TJ *j, FILE *f, char *pais_origem){
     char nome[70], data[30], *p, texto[15], l[100], *linha;
 
     // Lê a linha
@@ -544,7 +544,7 @@ TJ *le_registro_jogador(TJ *j, FILE *f, char *pais_atual){
     // Se não for dado, vai para a próxima iteração
     if(!strchr(linha, '/')){
         linha[strlen(linha)-1] = '\0';
-        strcpy(pais_atual, linha);
+        strcpy(pais_origem, linha);
         return NULL;
     }
 
@@ -562,9 +562,9 @@ TJ *le_registro_jogador(TJ *j, FILE *f, char *pais_atual){
         linha = strchr(linha, '/');
         linha++;
     }
-    linha = le_string(linha, j->pais_origem, '/');
+    linha = le_string(linha, j->pais_atual, '/');
     le_string(linha, j->time, '/');
-    strcpy(j->pais_atual, pais_atual);
+    strcpy(j->pais_origem, pais_origem);
 
     // Verificando se é capitão
     p = strchr(nome, '(');
@@ -591,7 +591,7 @@ char *arq2arvbmarq(char *origem, char *destino, int t, int *n){
     int c = 0;
 
     char *d = (char *) malloc(sizeof(char) * 30),
-        *pais_atual = (char *) malloc(sizeof(char) * 30);
+        *pais_origem = (char *) malloc(sizeof(char) * 30);
     strcpy(d, destino);
 
     // Abre o arquivo
@@ -600,7 +600,7 @@ char *arq2arvbmarq(char *origem, char *destino, int t, int *n){
     while(!feof(f)){
 
         // Faz a leitura do jogador
-        if(le_registro_jogador(j, f, pais_atual))
+        if(le_registro_jogador(j, f, pais_origem))
 
         // Insere no arquivo
         d = insere(d, j, t, &c);
@@ -608,7 +608,7 @@ char *arq2arvbmarq(char *origem, char *destino, int t, int *n){
 
     // Fecha o arquivo
     free(j);
-    free(pais_atual);
+    free(pais_origem);
     fclose(f);
     *n = c;
     return d;
@@ -652,13 +652,20 @@ TLSE *get_listl(char *arq, int t, VERL *v, TLSE *l){
     return gll(arq, t, NULL, v, l);
 }
 char *rem_generico(char *arq, int t, VER *v){
-    TLSE *l = gl(arq, t, NULL, v), *a;
-    a = l;
-    while(a){
-        arq = retira(arq, ((TJ *) a->dado)->id, t);
+    TLSE *l = gl(arq, t, NULL, v);
+    while(l){
+        arq = retira(arq, ((TJ *) l->dado)->id, t);
     }
     return arq;
 }
+char *rem_genericol(char *arq, int t, VER *v, TLSE *l){
+    TLSE *l = gll(arq, t, NULL, v, l);
+    while(l){
+        arq = retira(arq, ((TJ *) l->dado)->id, t);
+    }
+    return arq;
+}
+
 /*-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-*/
 
 // (1) Retorno do jogador mais novo e mais velho da competição, ilustrando essas mesmas informações por seleções e por posições;
@@ -741,8 +748,7 @@ TLSE *jogadores_do_mesmo_mes(char *arq, int t, int mes){
 // (9) Busca da(s) seleção(ções) com mais jogadores que atuam fora do seu país de origem;
 int cmpfint(void *p1, void *p2){
     int n1 = *((int *) p1), n2 = *((int *) p2);
-    printf("%d vs %d\n", n1, n2);
-    return n2 - n1;
+    return n1 - n2;
 }
 int cmpfstr(void *p1, void *p2){
     char *s1 = (char *) p1, *s2 = (char *) p2;
@@ -823,9 +829,28 @@ TLSE *jogadores_da_selecao(char *arq, int t, char *selecao){
 }
 
 // (14) Busca e remoção de todos os capitães;
+int eh_capitao(TJ *j){
+    return j->capitao;
+}
+char *remove_capitao(char *arq, int t){
+    return rem_generico(arq, t, eh_capitao);
+}
+
 // (15) Remoção de jogadores a partir de uma determinada idade;
+int tem_tal_idade(TJ *j, TLSE *l){
+    int idade = *((int *) TLSE_get(l, 0));
+    return j->idade == idade;
+}
+char *remove_jogadores_pela_idade(char *arq, int t, int idade){
+    TLSE *l = TLSE_insini(NULL, &idade);
+    return rem_genericol(arq, t, tem_tal_idade, l);
+}
+
 // (16) Retirada de todos os jogadores de uma seleção que atuam num determinado país;
 // (17) Retirada de todos os os jogadores de uma seleção que não atuam no país de origem;
 // (18) Retirada de todos os os jogadores de uma seleção atuam fora do país de origem;
+char *remove_jogadores_fora_do_pais_de_origem(char *arq, int t, int idade){
+    return rem_generico(arq, t, jogadores_fora_do_pais_de_origem);
+}
 // (19) Retirada de todos os os jogadores de uma seleção; e
 // (20) Remoção de jogadores, dado um conjunto contendo suas chaves primárias.

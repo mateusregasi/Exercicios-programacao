@@ -159,8 +159,8 @@ int TLSE_maiori(TLSE *l, cmpf *f){
             cm = c;
         }
         l = l->prox;
+        c++;
     }
-    printf("%d", cm);
     return cm;
 }
 void *TLSE_menor(TLSE *l, cmpf *f){
@@ -185,6 +185,7 @@ int TLSE_menori(TLSE *l, cmpf *f){
             cm = c;
         }
         l = l->prox;
+        c++;
         c++;
     }
     return cm;
