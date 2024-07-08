@@ -1,4 +1,3 @@
-
 Germany
 1/1/GK/Manuel Neuer/27 March 1986 (aged 38)/118/0/Germany/Bayern Munich
 38/22/GK/Marc-Andre ter Stegen/30 April 1992 (aged 32)/40/0/Spain/Barcelona
@@ -294,5 +293,3 @@ Portugal
 53/24/DF/António Silva/30 October 2003 (aged 20)/9/0/Portugal/Benfica
 255/25/FW/Pedro Neto/9 March 2000 (aged 24)/5/1/England/Wolverhampton Wanderers
 225/26/FW/Francisco Conceição/14 December 2002 (aged 21)/1/0/Portugal/Porto
-EURO.txt
-Exibindo EURO.txt…

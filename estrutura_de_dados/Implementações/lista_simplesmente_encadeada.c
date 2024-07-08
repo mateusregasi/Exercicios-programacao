@@ -80,3 +80,10 @@ NO *inv_rec(NO *ant, NO *atual){
     if(prox) return inv_rec(atual, prox);
     return atual;
 }
+
+NO *retini(NO *l, void *v){
+    v = l->dado;
+    NO *a = l->prox;
+    free(l);
+    return a;
+}
