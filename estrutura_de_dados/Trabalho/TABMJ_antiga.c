@@ -1,16 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
 #include "lista_simplesmente_encadeada.c"
-// #include "TABELAS_antiga.c"
 
 // Jogador
 typedef struct jogador{
     int id,
         camisa,
-        capitao,
-        idade;
+        capitao;
     char posicao[3],
          nome[51],
          nascimento[11];
@@ -409,7 +406,7 @@ char *remover(char *arq, int id, int t){
             no->filho[i] = remover(no->filho[i], id, t);
 
             if(no->nchaves == 0){
-                char *tmp = (char *) malloc(sizeof(char)*30);
+                char *tmp = malloc(sizeof(char)*30);
                 strcpy(tmp, no->filho[0]);
                 libera_no(no);
                 strcpy(arq, tmp);
@@ -466,6 +463,161 @@ char *remover(char *arq, int id, int t){
     }
 }
 
+/*
+char *remover(char *arq, int id, int t){
+    int i;
+    TABMJ *no = cria_no(t);
+    leitura(arq, no);
+    for(i=0; (i<no->nchaves) && (no->chave[i].id < id); i++);
+    if((i<no->nchaves) && (no->chave[i].id) && (no->folha)){
+        int j;
+        for(j=i; j<(no->nchaves-1); j++) no->chave[j] = no->chave[j+1];
+        no->nchaves--;
+        escrita(no, arq);
+        libera_no(no);
+        return arq;
+    };
+
+    if((i<no->nchaves) && (no->chave[i].id == id)) i++;
+    TABMJ *y = cria_no(t), *z = cria_no(t);
+    leitura(no->filho[i], y); 
+    if(i<no->nchaves)
+        leitura(no->filho[i+1], z);
+    if(y->nchaves == t-1){
+        if((i < no->nchaves) && (z->nchaves >= t)){
+            if(!y->folha){
+                y->chave[t-1] = no->chave[i];
+                no->chave[i] = z->chave[0];
+            }else{
+                no->chave[i] = z->chave[0];
+                no->chave[i].id++;
+                y->chave[t-1] = z->chave[0];
+            };
+            y->nchaves++;
+
+            int j;
+            for(j=0; j<(z->nchaves-1); j++) z->chave[j] = z->chave[j+1];
+            strcpy(y->filho[y->nchaves], z->filho[0]);
+            for(j=0; j<z->nchaves; j++) strcpy(z->filho[j], z->filho[j+1]);
+            z->nchaves--;
+            escrita(y, no->filho[i]); escrita(z, no->filho[i+1]);
+            libera_no(y); libera_no(z);
+            no->filho[i] = remover(no->filho[i], id, t);
+            escrita(no, arq);
+            libera_no(no);
+            return arq;
+        };
+        if(i>0) leitura(no->filho[i-1], z);
+        if((i>0) && (z->nchaves >= t)){
+            int j;
+            for(j=y->nchaves; j>0; j--) y->chave[j] = y->chave[j-1];
+            for(j=(y->nchaves+1); j>0; j--) strcpy(y->filho[j], y->filho[j-1]);
+
+            if(!y->folha){
+                y->chave[0] = no->chave[i-1];
+                no->chave[i-1] = z->chave[z->nchaves-1];
+            } else {
+                no->chave[i-1] = z->chave[z->nchaves-1];
+                y->chave[0] = z->chave[z->nchaves-1];
+            };
+            y->nchaves++;
+
+            strcpy(y->filho[0], z->filho[z->nchaves-1]);
+            z->nchaves--;
+            escrita(y, no->filho[i]); escrita(z, no->filho[i-1]);
+            libera_no(y); libera_no(z);
+            no->filho[i] = remover(no->filho[i], id, t);
+            escrita(no, arq);
+            libera_no(no);
+            return(arq);
+        };
+        if(i<no->nchaves)
+            leitura(no->filho[i+1], z);
+        if((i < no->nchaves) && (z->nchaves == t-1)){
+            if(!y->folha){
+                y->chave[t-1] = no->chave[i];
+                y->nchaves++;
+            }
+            int j;
+            for(j=0; j<t-1; j++){
+                if(!y->folha) y->chave[t+j] = z->chave[j];
+                else y->chave[t+j-1] = z->chave[j];
+                y->nchaves++;
+            };
+            y->prox = z->prox;
+            if(!y->folha){
+                for(j=0; j<t; j++) strcpy(y->filho[t+j], z->filho[j]);
+            };
+            libera_no(z);
+            escrita(y, no->filho[i]);
+            libera_no(y);
+            for(j=i; j<no->nchaves-1; j++){
+                no->chave[j] = no->chave[j+1];
+                strcpy(no->filho[j+1], no->filho[j+2]);
+            };
+            strcpy(no->filho[no->nchaves], "");
+            no->nchaves--;
+            if(!no->nchaves){
+                char *temp = malloc(sizeof(char)*30);
+                strcpy(temp, no->filho[0]);
+                remove(arq);
+                free(arq);
+                arq = temp;
+            }
+            escrita(no, arq);
+            libera_no(no);
+            arq = remover(arq, id, t);
+            return arq;
+        }
+        if(i>0) leitura(no->filho[i-1], z);
+        if((i > 0) && (z->nchaves == t-1)){
+            if(!y->folha){
+                if(i == no->nchaves){
+                    z->chave[t-1] = no->chave[i-1];
+                } else {
+                    z->chave[t-1] = no->chave[i];
+                };
+                z->nchaves++;
+            }
+            int j;
+            for(j=0; j<t-1; j++){
+                if(!y->folha) z->chave[t+j] = y->chave[j];
+                else z->chave[t+j-1] = y->chave[j];
+                z->nchaves++;
+            };
+            z->prox = y->prox;
+            if(!z->folha){
+                for(j=0; j<t; j++) strcpy(z->filho[t+j], y->filho[j]);
+                remove(no->filho[i]);
+            }else{
+                escrita(y, no->filho[i]);
+            };
+            libera_no(y);
+            escrita(z, no->filho[i-1]);
+            libera_no(z);
+
+            strcpy(no->filho[no->nchaves], "");
+            no->nchaves--;
+            if(!no->nchaves){
+                char *temp = malloc(sizeof(char)*30);
+                strcpy(temp, no->filho[0]);
+                remove(arq);
+                free(arq);
+                arq = temp;
+            }
+            libera_no(no);
+            arq = remover(arq, id, t);
+            return arq;
+        }
+    }
+    no->filho[i] = remover(no->filho[i], id, t);
+    libera_no(y); libera_no(z);
+    escrita(no, arq);
+    libera_no(no);
+    return(arq);
+}
+*/
+
 char *retira(char *arq, int id, int t){
     char *b = busca(arq, id, t);
     if(!b) return arq;
@@ -512,12 +664,12 @@ void imprime(char *a, int t){
 typedef int VER(TJ *j);
 typedef int VERL(TJ *j, TLSE *l);
 
+
 TJ *TJ_copia(TJ *j){
     TJ *c = (TJ *) malloc(sizeof(TJ));
     c->id = j->id;
     c->camisa = j->camisa;
     c->capitao = j->capitao;
-    c->idade = j->idade;
     c->n_partidas = j->n_partidas;
     c->n_gols = j->n_gols;
     strcpy(c->posicao, j->posicao);
@@ -536,7 +688,7 @@ void *le_string(char *origem, char *destino, char separador){
     destino[n] = '\0';
     return p + 1;
 }
-TJ *le_registro_jogador(TJ *j, FILE *f, char *pais_origem){
+TJ *le_registro_jogador(TJ *j, FILE *f, char *pais_atual){
     char nome[70], data[30], *p, texto[15], l[100], *linha;
 
     // Lê a linha
@@ -546,7 +698,7 @@ TJ *le_registro_jogador(TJ *j, FILE *f, char *pais_origem){
     // Se não for dado, vai para a próxima iteração
     if(!strchr(linha, '/')){
         linha[strlen(linha)-1] = '\0';
-        strcpy(pais_origem, linha);
+        strcpy(pais_atual, linha);
         return NULL;
     }
 
@@ -564,9 +716,9 @@ TJ *le_registro_jogador(TJ *j, FILE *f, char *pais_origem){
         linha = strchr(linha, '/');
         linha++;
     }
-    linha = le_string(linha, j->pais_atual, '/');
+    linha = le_string(linha, j->pais_origem, '/');
     le_string(linha, j->time, '/');
-    strcpy(j->pais_origem, pais_origem);
+    strcpy(j->pais_atual, pais_atual);
 
     // Verificando se é capitão
     p = strchr(nome, '(');
@@ -578,22 +730,26 @@ TJ *le_registro_jogador(TJ *j, FILE *f, char *pais_origem){
     strcpy(j->nome, nome);
 
     // Formata a data
+    char meses[13][20] = {"January","February","March","April","May","June","July","August","September","October","November","December"},
+        mes[10];
     int dia, ano, i;
-    char mes[10];
-    sscanf(data, "%d %s %d (aged %d)", &dia, mes, &ano, &j->idade);
-
-    char meses[13][20] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+    sscanf(data, "%d", &dia);
+    p = (strchr(data, ' ')) + 1;
+    sscanf(p, "%s", mes);
+    p = (strchr(p, ' ')) + 1;
+    sscanf(p, "%d", &ano);
     for(i=0; strcmp(meses[i], mes); i++);
     sprintf(j->nascimento, "%d-%s%d-%s%d", ano, (i+1 < 10) ? "0" : "", i+1, (dia < 10) ? "0" : "", dia);
 
     return j;
 }
+
 char *arq2arvbmarq(char *origem, char *destino, int t, int *n){
     TJ *j = (TJ *) malloc(sizeof(TJ));
-    int c = 0;
+    int c = (*n);
 
     char *d = (char *) malloc(sizeof(char) * 30),
-        *pais_origem = (char *) malloc(sizeof(char) * 30);
+        *pais_atual = (char *) malloc(sizeof(char) * 30);
     strcpy(d, destino);
 
     // Abre o arquivo
@@ -602,15 +758,16 @@ char *arq2arvbmarq(char *origem, char *destino, int t, int *n){
     while(!feof(f)){
 
         // Faz a leitura do jogador
-        if(le_registro_jogador(j, f, pais_origem))
+        if(le_registro_jogador(j, f, pais_atual))
 
         // Insere no arquivo
         d = insere(d, j, t, &c);
+		
     }
 
     // Fecha o arquivo
     free(j);
-    free(pais_origem);
+    free(pais_atual);
     fclose(f);
     *n = c;
     return d;
@@ -631,6 +788,7 @@ TLSE *gl(char *arq, int t, TLSE *lista, VER *ver){
     libera_no(a);
     return lista;
 }
+
 TLSE *gll(char *arq, int t, TLSE *lista, VERL *ver, TLSE *l){
     TABMJ *a = cria_no(t);
     leitura(arq, a);
@@ -638,7 +796,7 @@ TLSE *gll(char *arq, int t, TLSE *lista, VERL *ver, TLSE *l){
     int i,j;
     for(i=0; i<a->nchaves; i++){
         if(!a->folha) lista = gll(a->filho[i], t, lista, ver, l);
-        if((a->folha) && (ver(&a->chave[i], l)))
+        if((a->folha) && (ver(&a->chave[i], l))) // Precisa ser folha pois b+ tem nó de fantasia
             lista = TLSE_insini(lista, TJ_copia(&a->chave[i]));
     }
     if(!a->folha) lista = gll(a->filho[i], t, lista, ver, l);
@@ -650,216 +808,406 @@ TLSE *gll(char *arq, int t, TLSE *lista, VERL *ver, TLSE *l){
 TLSE *get_list(char *arq, int t, VER *v){
     return gl(arq, t, NULL, v);
 }
+
 TLSE *get_listl(char *arq, int t, VERL *v, TLSE *l){
     return gll(arq, t, NULL, v, l);
 }
-
-char *rem_generico(char *arq, int t, VER *v){
-    TLSE *l = gl(arq, t, NULL, v);
-    
-    while(l){
-        int id = ((TJ *) l->dado)->id;
-        printf("%d\n", id);
-        arq = retira(arq, id, t);
-        l = l->prox;
-    }
-    
-    return arq;
-}
-char *rem_genericol(char *arq, int t, VERL *v, TLSE *lista){
-    TLSE *l = gll(arq, t, NULL, v, lista);
-    while(l){
-        int id = ((TJ *) l->dado)->id;
-        printf("%d\n", id);
-        arq = retira(arq, id, t);
-        l = l->prox;
-    }
-    return arq;
-}
-
 /*-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-*/
 
-// (1) Retorno do jogador mais novo e mais velho da competição, ilustrando essas mesmas informações por seleções e por posições;
-int ver_posicao(TJ *j, TLSE *l){
-    char *posicao = (char *) l->dado;
-    return (strcmp(j->posicao, posicao) == 0);
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+// Lê uma linha do arquivo "EURO.txt" e passa adequadamente para a tabela 
+// Passa todas as informações do arquivo "EURO.txt" para a tabela
+// Lê a informação requisitada da tabela e retorna um vetor (atualiza um contador externo)
+// Substitui um ID da tabela pelo valor "-1"
+
+void le_registro2tabela_selecoes(TJ *j, FILE *f, FILE *s, int* contador, int* pulo);
+void arq2tabela_selecoes(char *nome, char *tabela);
+int* le_tabela_selecao(char *tabela, char *selecao, int* c);
+void retira_tabela_selecao(char *tabela, int num);
+
+void le_registro2tabela_posicoes(TJ *j, FILE *f, FILE *s, int* contador, char *pos);
+void arq2tabela_posicoes(char *nome, char *tabela);
+int* le_tabela_posicao(char *tabela, char *pos, int* c);
+void retira_tabela_posicao(char *tabela, int num);
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+void le_registro2tabela_selecoes(TJ *j, FILE *f, FILE *s, int* contador, int* pulo){
+    char l[100], *linha;
+
+    fgets(l, 100, f);
+    linha = l;
+
+	// Se não é o registro de um jogador:
+    if(!strchr(linha, '/')){
+		if(!strchr(linha, '.')){
+			
+			// Caso não seja a primeira iteração:
+			if((*contador)){
+				
+				// Volta para o contador da seleção anterior e reescrevo 
+				fseek(s, (*pulo), SEEK_SET);
+				fwrite(contador, sizeof(int), 1, s);
+				
+				// Atualizo os valores e ponteiros
+				(*pulo) += (sizeof(int)*((*contador)+1)) + (sizeof(char)*20);
+				(*contador) = 0;
+				
+				fseek(s, 0, SEEK_END);
+			}
+			
+			// Escrevo o pais e seu contador (zerado)
+			fwrite(linha, (sizeof(char)*20), 1, s);
+			fwrite(contador, sizeof(int), 1, s);
+		}
+		return;
+	}
+	
+	// Escrevo o id do jogador
+    sscanf(l, "%d",  &j->id);
+	fwrite(&j->id, sizeof(int), 1, s);
+	
+	// Atualizo o contador
+	(*contador)++;
+	return;
 }
-int ver_pais_atual(TJ *j, TLSE *l){
-    char *pais_atual = (char *) TLSE_get(l, 0);
-    return (strcmp(j->pais_atual, pais_atual) == 0);
-}
-int faux_jogadores_mais_novos_e_mais_velhos(TJ *j, TLSE *l){
-    VERL *v = TLSE_get(l, 2);
-    if(!v || v(j, NULL)){
-        if(!TLSE_get(l, 0)){
-            TLSE_set(l, 0, TJ_copia(j));
-            TLSE_set(l, 1, TJ_copia(j));
-        } else{
-            TJ *jm = (TJ *) TLSE_get(l, 0), *jM = (TJ *) TLSE_get(l, 1);
-            if(strcmp(j->nascimento, jm->nascimento) > 0){
-                free((TJ *) l->dado);
-                TLSE_set(l, 0, TJ_copia(j));
-            }
-            else if(strcmp(j->nascimento, jM->nascimento) < 0){
-                free((TJ *) l->prox->dado);
-                TLSE_set(l, 1, TJ_copia(j));
-            }
-        }
+
+void arq2tabela_selecoes(char *nome, char *tabela){
+	
+	// Inicializo o contador e pulo que serão usados no "le_registro2tabela_selecoes"
+	int contador = 0;
+	int pulo = sizeof(char)*20;
+
+	// Abro os arquivos
+    FILE *f = fopen(nome, "r");
+    if(!f) exit(1);
+	
+    FILE *t = fopen(tabela, "wb+");
+    if(!t) exit(1);
+
+	TJ *j = (TJ *) malloc(sizeof(TJ));
+	
+	// Leio as linhas do arquivo "EURO.txt" até que ele acabe
+    while(!feof(f)){
+		le_registro2tabela_selecoes(j, f, t, &contador, &pulo);
     }
-    return 0;
+	
+	// CORREÇÃO PARA A ÚLTIMA SELEÇÃO LIDA //
+	fseek(t, pulo, SEEK_SET);
+	fwrite(&contador, sizeof(int), 1, t);
+	
+	// Atualizo os valores e ponteiros
+	pulo += (sizeof(int)*(contador+1)) + (sizeof(char)*20);
+	contador = 0;
+	
+	fseek(t, 0, SEEK_END);
+	/////////////////////////////////////////
+
+	free(j);
+    fclose(f);
+	fclose(t);
 }
-TLSE *jogadores_mais_novos_e_mais_velhos(char *arq, int t){
-    TLSE *l = TLSE_insini(NULL, NULL);
-    l = TLSE_insini(l, NULL);
-    get_listl(arq, t, faux_jogadores_mais_novos_e_mais_velhos, l);
-    return l;
+
+int* le_tabela_selecao(char *tabela, char *selecao, int* c){
+	char pais[20];
+	int contador;
+	int *ids;
+	
+	char* s = (char*)malloc(sizeof(char)*20);
+	strcpy(s, selecao);
+	strcat(s, "\n");
+	
+    FILE *t = fopen(tabela, "rb");
+    if(!t) exit(1);
+	
+	
+	// Enquanto o arquivo não termina:
+	while(!feof(t)){
+
+		// Leio os valores da tabela
+		fread(&pais, sizeof(char), 20, t);
+		fread(&contador, sizeof(int), 1, t);
+		ids = (int*)malloc(sizeof(int)*contador);
+		for(int i = 0; i<contador; i++) fread(&ids[i], sizeof(int), 1, t);
+		
+		// Se não for a seleção requisitada, passo para próxima, se sim, retorno.
+		if(strcmp(pais, s)) free(ids);
+		else break;
+		
+	}
+	
+	// Se não encontrei a seleção requisitada, retorno nulo 
+	if((feof(t)) && (strcmp(pais, s))){
+		fclose(t);
+		(*c) = 0;
+		return NULL;
+	}
+	
+	// Retorno a lista de IDs da seleção requisitada
+	fclose(t);
+	(*c) = contador;
+	return ids;
 }
-TLSE *jogadores_mais_novos_e_mais_velhos_por_posicao(char *arq, int t, char *posicao){
-    TLSE *l = TLSE_insini(NULL, NULL);
-    l = TLSE_insini(l, NULL);
-    l = TLSE_insfim(l, ver_posicao);
-    l = TLSE_insfim(l, posicao);
-    get_listl(arq, t, faux_jogadores_mais_novos_e_mais_velhos, l);
-    return l;
+
+void retira_tabela_selecao(char *tabela, int num){
+	char pais[20];
+	int contador;
+	int pulo;
+	
+	// O valor -1 é escolhido para representar IDs que não existem mais.
+	int del = -1;
+	int id;
+	
+    FILE *t = fopen(tabela, "rb+");
+    if(!t) exit(1);
+	
+	// Enquanto o arquivo não termina:
+	while(!feof(t)){
+		
+		// Leio os valores da tabela
+		fread(&pais, sizeof(char), 20, t);
+		fread(&contador, sizeof(int), 1, t);
+		
+		for(int i = 0; i<contador; i++){
+			fread(&id, sizeof(int), 1, t);
+			
+			// Se encontro o ID requisitado
+			if(id==num){
+				
+				
+				// Reescrevo ele como "-1"
+				pulo = (ftell(t)-sizeof(int));
+				fseek(t, pulo, SEEK_SET);
+				fwrite(&del, sizeof(int), 1, t);
+				fclose(t);
+				return;
+				
+			}
+		}
+	}
+
+	fclose(t);
+	return;
 }
-TLSE *jogadores_mais_novos_e_mais_velhos_por_selecao(char *arq, int t, char *selecao){
-    TLSE *l = TLSE_insini(NULL, NULL);
-    l = TLSE_insini(l, NULL);
-    l = TLSE_insfim(l, ver_pais_atual);
-    l = TLSE_insfim(l, selecao);
-    get_listl(arq, t, faux_jogadores_mais_novos_e_mais_velhos, l);
-    return l;
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+void le_registro2tabela_posicoes(TJ *j, FILE *f, FILE *s, int* contador, char *pos){
+	char l[100], *linha;
+
+    fgets(l, 100, f);
+    linha = l;
+
+	// Se não é o registro de um jogador:
+    if (!strchr(linha, '/')) return;
+	
+	// Escrevo o id do jogador se ele for da posição requisitada
+    sscanf(l, "%d/%d/",  &j->id, &j->camisa);
+    for(int i=0; i<2; i++){
+        linha = strchr(linha, '/');
+        linha++;
+    }
+	
+    linha = le_string(linha, j->posicao, '/');
+	if (!strcmp(j->posicao, pos)){
+		fwrite(&j->id, sizeof(int), 1, s);
+		
+		// Atualizo o contador
+		(*contador)++;
+	}
+	
+	return;
 }
-// // (2) Os jogadores que mais e menos atuaram em suas equipes;
-// TJ *busca_jog(char *arq, int t, int id);
 
-// void *mais_e_menos_selecao(char *arq, int t, char *tabela, char *selecao, TJ *mais, TJ *menos){
-//     int c, i;
-//     int *ids = le_tabela_selecao(tabela, selecao, &c);
-//     TJ *aux = busca_jog(arq, t, ids[0]);
-//     (*mais) = (*aux);
-//     (*menos) = (*aux);
-//     free(aux);
-//     for(i = 1; i < c; i++){
-//         aux = busca_jog(arq, t, ids[i]);
-//         if(aux->n_partidas > mais->n_partidas) (*mais) = (*aux);
-//         if(aux->n_partidas < mais->n_partidas) (*menos) = (*aux);
-//         free(aux);
-//     }
-//     free(ids);
-// }
+void arq2tabela_posicoes(char *nome, char *tabela){
+	
+	// Inicializo o contador e pulo que serão usados no "le_registro2tabela_posicoes"
+	int contador = 0;
+	int pulo = sizeof(char)*3;
+	
+	char* pos[4] = {"GK", "DF", "MF", "FW"};
 
-// // (3) Os jogadores que mais e menos atuaram no total;
-// void mais_e_menos_atuaram_total(char *arq, int t, TJ *mais, TJ *menos){
-//     TABMJ *no = cria_no(t);
-//     leitura(arq, no);
-//     if(no->folha){
-//         int i;
-//         for(i=0; i<no->nchaves; i++){
-//             if(no->chave[i].n_partidas > mais->n_partidas) (*mais) = no->chave[i];
-//             if(no->chave[i].n_partidas < menos->n_partidas) (*menos) = no->chave[i];
-//         }
-//     } else {
-//         int i;
-//         for(i=0; i<=no->nchaves; i++){
-//             mais_e_menos_atuaram_total(no->filho[i], t, mais, menos);
-//         }
-//     }
-//     libera_no(no);
-// }
+	// Abro os arquivos
+    FILE *f = fopen(nome, "r");
+    if(!f) exit(1);
+	
+    FILE *t = fopen(tabela, "wb+");
+    if(!t) exit(1);
 
-// // (4) A menor e a maior seleção, isto é, com menos ou mais convocados;
-// // A menor seleção, isto é, com menos convocados;
-// char* menor_selecao(char *tabela){
+	TJ *j = (TJ *) malloc(sizeof(TJ));
 	
-// 	int menor = INT_MAX;
-// 	char* selecao = (char*)malloc(sizeof(char)*20);
-	
-// 	int negativo;
-	
-// 	char pais[20];
-// 	int contador;
-// 	int *ids;
-	
-//     FILE *t = fopen(tabela, "rb");
-//     if(!t) exit(1);
-	
-	
-// 	// Enquanto o arquivo não termina:
-// 	while(!feof(t)){
+	for (int i = 0; i<4; i++){
 		
-// 		negativo = 0;
+		// Escrevo a posição e inicio o contador no arquivo
+		fwrite(pos[i], (sizeof(char)*3), 1, t);
+		fwrite(&contador, sizeof(int), 1, t);
+		
+		// Leio as linhas do arquivo "EURO.txt" até que ele acabe
+		while(!feof(f)){
+			le_registro2tabela_posicoes(j, f, t, &contador, pos[i]);
+		}
+		
+		// Atualizo o contador no arquivo (tabela)
+		fseek(t, pulo, SEEK_SET);
+		fwrite(&contador, sizeof(int), 1, t);
+		pulo += (sizeof(char)*3) + (sizeof(int)*(contador+1));
+		contador = 0;
+		fseek(t, 0, SEEK_END);
+		
+		
+		fseek(f, 0, SEEK_SET);
+	}
 
-// 		// Leio os valores da tabela
-// 		fread(&pais, sizeof(char), 20, t);
-// 		fread(&contador, sizeof(int), 1, t);
-// 		ids = (int*)malloc(sizeof(int)*contador);
-// 		for(int i = 0; i<contador; i++){
-// 			fread(&ids[i], sizeof(int), 1, t);
-// 			if (ids[i]==-1) negativo++;
-// 		}
-		
-// 		if((contador-negativo) < menor){
-// 			strcpy(selecao, pais);
-// 			menor = contador-negativo;
-// 		}
-		
-// 	}
-	
-// 	fclose(t);
-// 	free(ids);
-	
-// 	return selecao;
-	
-// }
-// // A maior seleção, isto é, com mais convocados;
-// char* maior_selecao(char *tabela){
-	
-// 	int maior = INT_MIN;
-// 	char* selecao = (char*)malloc(sizeof(char)*20);
-	
-// 	int negativo;
-	
-// 	char pais[20];
-// 	int contador;
-// 	int *ids;
-	
-//     FILE *t = fopen(tabela, "rb");
-//     if(!t) exit(1);
-	
-	
-// 	// Enquanto o arquivo não termina:
-// 	while(!feof(t)){
-		
-// 		negativo = 0;
+	free(j);
+    fclose(f);
+	fclose(t);
+}
 
-// 		// Leio os valores da tabela
-// 		fread(&pais, sizeof(char), 20, t);
-// 		fread(&contador, sizeof(int), 1, t);
-// 		ids = (int*)malloc(sizeof(int)*contador);
-// 		for(int i = 0; i<contador; i++){
-// 			fread(&ids[i], sizeof(int), 1, t);
-// 			if (ids[i]==-1) negativo++;
-// 		}
+int* le_tabela_posicao(char *tabela, char *pos, int* c){
+	char p[3];
+	int contador;
+	int *ids;
+	
+    FILE *t = fopen(tabela, "rb");
+    if(!t) exit(1);
+	
+	
+	// Enquanto o arquivo não termina:
+	while(!feof(t)){
+
+		// Leio os valores da tabela
+		fread(&p, sizeof(char), 3, t);
+		fread(&contador, sizeof(int), 1, t);
+		ids = (int*)malloc(sizeof(int)*contador);
+		for(int i = 0; i<contador; i++) fread(&ids[i], sizeof(int), 1, t);
 		
-// 		if((contador-negativo) > maior){
-// 			strcpy(selecao, pais);
-// 			maior = contador-negativo;
-// 		}
-// 	}
+		// Se não for a posição requisitada, passo para próxima, se sim, retorno.
+		if(strcmp(p, pos)) free(ids);
+		else break;
+		
+	}
 	
-// 	fclose(t);
-// 	free(ids);
+	// Se não encontrei a posição requisitada, retorno nulo 
+	if((feof(t)) && (strcmp(p, pos))){
+		fclose(t);
+		(*c) = 0;
+		return NULL;
+	}
 	
-// 	return selecao;
+	// Retorno a lista de IDs da seleção requisitada
+	fclose(t);
+	(*c) = contador;
+	return ids;
+}
+
+void retira_tabela_posicao(char *tabela, int num){
+	char pos[3];
+	int contador;
+	int pulo;
 	
-// }
+	// O valor -1 é escolhido para representar IDs que não existem mais.
+	int del = -1;
+	int id;
+	
+    FILE *t = fopen(tabela, "rb+");
+    if(!t) exit(1);
+	
+	// Enquanto o arquivo não termina:
+	while(!feof(t)){
+		
+		// Leio os valores da tabela
+		fread(&pos, sizeof(char), 3, t);
+		fread(&contador, sizeof(int), 1, t);
+		
+		for(int i = 0; i<contador; i++){
+			fread(&id, sizeof(int), 1, t);
+			
+			// Se encontro o ID requisitado
+			if(id==num){
+				
+				
+				// Reescrevo ele como "-1"
+				pulo = (ftell(t)-sizeof(int));
+				fseek(t, pulo, SEEK_SET);
+				fwrite(&del, sizeof(int), 1, t);
+				fclose(t);
+				return;
+				
+			}
+		}
+	}
+
+	fclose(t);
+	return;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// (1) Retorno do jogador mais novo e mais velho da competição, ilustrando essas mesmas informações por seleções e por posições;
+void mais_novo_e_mais_velho_aux(char *arq, int t, TJ *novo, TJ *velho){
+    TABMJ *no = cria_no(t);
+    leitura(arq, no);
+	
+    if(no->folha){
+        int i;
+        for(i=0; i<no->nchaves; i++){
+            if(strcmp(no->chave[i].nascimento, novo->nascimento) == 1) (*novo) = no->chave[i];
+            if(strcmp(no->chave[i].nascimento, velho->nascimento) == -1) (*velho) = no->chave[i];
+        }
+    } else {
+        int i;
+        for(i=0; i<=no->nchaves; i++) mais_novo_e_mais_velho_aux(no->filho[i], t, novo, velho);
+    }
+    libera_no(no);
+}
+
+void mais_novo_e_mais_velho(char *arq, int t, TJ *novo, TJ *velho){
+	
+    TABMJ *no = cria_no(t);
+    leitura(arq, no);
+
+    while(!no->folha){
+        leitura(no->filho[0], no);
+    }
+    (*novo) = no->chave[0];
+    (*velho) = no->chave[0];
+    libera_no(no);
+	
+    mais_novo_e_mais_velho_aux(arq, t, novo, velho);
+}
+
+// (2) Os jogadores que mais e menos atuaram em suas equipes;
+TJ *busca_jog(char *arq, int t, int id);
+
+void *mais_e_menos_selecao(char *arq, int t, char *tabela, char *selecao, TJ *mais, TJ *menos){
+    int c, i;
+    int *ids = le_tabela_selecao(tabela, selecao, &c);
+    TJ *aux = busca_jog(arq, t, ids[0]);
+    (*mais) = (*aux);
+    (*menos) = (*aux);
+    free(aux);
+    for(i = 1; i < c; i++){
+        aux = busca_jog(arq, t, ids[i]);
+        if(aux->n_partidas > mais->n_partidas) (*mais) = (*aux);
+        if(aux->n_partidas < mais->n_partidas) (*menos) = (*aux);
+        free(aux);
+    }
+    free(ids);
+}
+
+// (3) Os jogadores que mais e menos atuaram no total;
+
+
+// (4) A menor e a maior seleção, isto é, com menos ou mais convocados;
+
+
 
 // (5) Busca de todos os jogadores que atuam fora do seu país de origem;
 int faux_jogadores_fora_do_pais_de_origem(TJ *j){
     if(strcmp(j->pais_origem, j->pais_atual)) return 1;
     return 0;
 }
+
 TLSE *jogadores_fora_do_pais_de_origem(char *arq, int t){
     return get_list(arq, t, faux_jogadores_fora_do_pais_de_origem);
 }
@@ -868,6 +1216,7 @@ TLSE *jogadores_fora_do_pais_de_origem(char *arq, int t){
 int faux_jogadores_no_pais_de_origem(TJ *j){
     return !faux_jogadores_fora_do_pais_de_origem(j);
 }
+
 TLSE *jogadores_no_pais_de_origem(char *arq, int t){
     return get_list(arq, t, faux_jogadores_no_pais_de_origem);
 }
@@ -875,12 +1224,14 @@ TLSE *jogadores_no_pais_de_origem(char *arq, int t){
 // (7) Busca de todos os jogadores que nasceram no mesmo ano;
 int faux_jogadores_do_mesmo_ano(TJ *j, TLSE *l){
     char *ano;
-    ano = (char *) TLSE_get(l, 0);
+    ano = TLSE_get(l, 0);
     if(strncmp(j->nascimento, ano, 4)) return 0;
     return 1;
 }
+
 TLSE *jogadores_do_mesmo_ano(char *arq, int t, int ano){
     char a[5];
+    sprintf(a, "%d", ano);
     TLSE *l = TLSE_insini(NULL, a), *lista;
     lista = get_listl(arq, t, faux_jogadores_do_mesmo_ano, l);
     free(l);
@@ -888,312 +1239,33 @@ TLSE *jogadores_do_mesmo_ano(char *arq, int t, int ano){
 }
 
 // (8) Busca de todos os jogadores que nasceram no mesmo mês;
-int faux_jogadores_do_mesmo_mes(TJ *j, TLSE *l){
-    char *mes = (char *) TLSE_get(l, 0), *m;
-    if(strncmp(&j->nascimento[5], mes, 2)) return 0;
-    return 1;
-}
-TLSE *jogadores_do_mesmo_mes(char *arq, int t, int mes){
-    char a[3];
-    if(mes / 10) sprintf(a, "%d", mes);
-    else sprintf(a, "0%d", mes);
-    TLSE *l = TLSE_insini(NULL, a), *lista;
-    lista = get_listl(arq, t, faux_jogadores_do_mesmo_mes, l);
-    free(l);
-    return lista;
-}
 
 // (9) Busca da(s) seleção(ções) com mais jogadores que atuam fora do seu país de origem;
-int cmpfint(void *p1, void *p2){
-    int n1 = *((int *) p1), n2 = *((int *) p2);
-    return n1 - n2;
-}
-int cmpfstr(void *p1, void *p2){
-    char *s1 = (char *) p1, *s2 = (char *) p2;
-    return strcmp(s1, s2);
-}
-int faux_ver_quant_lista_dupla_retorna_string(TJ *j, TLSE *l){
-    VER *f = (VER *) TLSE_get(l, 2);
-    if(f(j)){
-        int i = TLSE_buscai(l->dado, j->pais_atual, cmpfstr);
-        if(i == -1){
-            char *pais = (char *) malloc(sizeof(char) * 30);
-            int *v = (int *) malloc(sizeof(int));
-            *v = 1;
-            strcpy(pais, j->pais_atual);
-            l->dado = TLSE_insini(l->dado, pais);
-            l->prox->dado = TLSE_insini(l->prox->dado, v);
-        } else{
-            TLSE *a = TLSE_get_no((TLSE *) l->prox->dado, i);
-            (*((int *) a->dado))++;
-        }
-    }
-    return 0;
-}
-char *ver_quant_lista_dupla_retorna_string(char *arq, int t, VER *f){
-    TLSE *l = TLSE_insini(NULL, NULL);
-    l = TLSE_insini(l, NULL);
-    l = TLSE_insfim(l, f);
-    get_listl(arq, t, faux_ver_quant_lista_dupla_retorna_string, l);
-
-
-    TLSE *a1 = (TLSE *) l->dado, *a2 = l->prox->dado;
-    while(a1){
-        printf("%s: %d\n", (char *) a1->dado, *((int *) a2->dado));
-        a1 = a1->prox;
-        a2 = a2->prox;
-    }
-
-    int i = TLSE_maiori(l->prox->dado, cmpfint);
-    char *str = (char *) malloc(sizeof(char) * 30);
-    strcpy(str, (char *) TLSE_get(l->dado, i));
-    TLSE_libera(l->dado);
-    TLSE_libera(l->prox->dado);
-    free(l->prox->prox);
-    free(l->prox);
-    free(l);
-    return str;
-}
-
-int pais_igual_ao_de_origem(TJ *j){
-    return strcmp(j->pais_atual, j->pais_origem) ? 0 : 1;
-}
-int pais_diferente_ao_de_origem(TJ *j){
-    return !pais_igual_ao_de_origem(j);
-}
-char *selecao_com_mais_jogadores_fora_do_pais(char *arq, int t){
-    return ver_quant_lista_dupla_retorna_string(arq, t, pais_igual_ao_de_origem);
-}
 
 // (10) Busca da(s) seleção(ções) com mais jogadores que atuam no seu país de origem;
-char *selecao_com_mais_jogadores_do_pais_de_origem(char *arq, int t){
-        return ver_quant_lista_dupla_retorna_string(arq, t, pais_diferente_ao_de_origem);
-}
 
-// // (11) Busca das informações subordinadas, dadas a chave primária (identificador único do jogador);
-// TJ *busca_jog(char *arq, int t, int id){
-//     char *a = busca(arq, id, t);
-//     if(!a) return NULL;
-//     TABMJ *b = cria_no(t);
-//     leitura(a, b);
-//     int i;
-//     for(i=0; b->chave[i].id < id; i++);
-//     TJ *jog = malloc(sizeof(TJ));
-//     (*jog) = b->chave[i];
-//     free(a);
-//     libera_no(b);
-	
-//     return jog;
-// }
-
-// // (12) Alteração SOMENTE de algumas informações, por exemplo, número da camisa que ele usa em sua respectiva seleção, a posição que ele joga (EXCETO GK), o número de partidas pela seleção, o número de gols, o jogador passar a (ou deixar de) ser capitão, o país do seu time atual e o nome do time atual;
-// void alteracao_camisa(char *arq, int t, int id, int nova_camisa){
-//     char *a = busca(arq, id, t);
-//     if(!a) return;
-//     TABMJ *b = cria_no(t);
-//     leitura(a, b);
-//     int i;
-//     for(i=0; b->chave[i].id < id; b++);
-//     b->chave[i].camisa = nova_camisa;
-//     escrita(b, a);
-//     free(a);
-//     libera_no(b);
-// }
-
-// //a posição que ele joga (EXCETO GK),
-// void alteracao_pos(char *arq, int t, int id, char *pos){
-//     if(!strcmp(pos, "GK")) return;
-//     char *a = busca(arq, id, t);
-//     if(!a) return;
-//     TABMJ *b = cria_no(t);
-//     leitura(a, b);
-//     int i;
-//     for(i=0; b->chave[i].id < id; b++);
-//     strcpy(b->chave[i].posicao, pos);
-//     escrita(b, a);
-//     free(a);
-//     libera_no(b);
-// }
-
-// //o número de partidas pela seleção,
-// void alteracao_n_partidas(char *arq, int t, int id, int novo){
-//     char *a = busca(arq, id, t);
-//     if(!a) return;
-//     TABMJ *b = cria_no(t);
-//     leitura(a, b);
-//     int i;
-//     for(i=0; b->chave[i].id < id; b++);
-//     b->chave[i].n_partidas = novo;
-//     escrita(b, a);
-//     free(a);
-//     libera_no(b);
-// }
-
-// //o número de gols,
-// void alteracao_n_gols(char *arq, int t, int id, int novo){
-//     char *a = busca(arq, id, t);
-//     if(!a) return;
-//     TABMJ *b = cria_no(t);
-//     leitura(a, b);
-//     int i;
-//     for(i=0; b->chave[i].id < id; b++);
-//     b->chave[i].n_gols = novo;
-//     escrita(b, a);
-//     free(a);
-//     libera_no(b);
-// }
-
-// //o jogador passar a (ou deixar de) ser capitão,
-// void alteracao_cap(char *arq, int t, int id, int novo){
-//     char *a = busca(arq, id, t);
-//     if(!a) return;
-//     TABMJ *b = cria_no(t);
-//     leitura(a, b);
-//     int i;
-//     for(i=0; b->chave[i].id < id; b++);
-//     b->chave[i].capitao = novo;
-//     escrita(b, a);
-//     free(a);
-//     libera_no(b);
-// }
-
-// //o país do seu time atual
-// void alteracao_pais_atual(char *arq, int t, int id, char *novo){
-//     char *a = busca(arq, id, t);
-//     if(!a) return;
-//     TABMJ *b = cria_no(t);
-//     leitura(a, b);
-//     int i;
-//     for(i=0; b->chave[i].id < id; b++);
-//     strcpy(b->chave[i].pais_atual, novo);
-//     escrita(b, a);
-//     free(a);
-//     libera_no(b);
-// }
-
-// //e o nome do time atual;
-// void alteracao_time(char *arq, int t, int id, char *novo){
-//     char *a = busca(arq, id, t);
-//     if(!a) return;
-//     TABMJ *b = cria_no(t);
-//     leitura(a, b);
-//     int i;
-//     for(i=0; b->chave[i].id < id; b++);
-//     strcpy(b->chave[i].time, novo);
-//     escrita(b, a);
-//     free(a);
-//     libera_no(b);
-// }
+// (11) Busca das informações subordinadas, dadas a chave primária (identificador único do jogador);
 
 
-// // (13) Busca de todos os jogadores de uma seleção;
-// int faux_jogadores_da_selecao(TJ *j, TLSE *l){
-//     char *s = (char *) TLSE_get(l, 0);
-//     if(strcmp(j->pais_atual, s)) return 1;
-//     return 0;
-// }
-// TLSE *jogadores_da_selecao(char *arq, int t, char *selecao){
-//     TLSE *lista = TLSE_insini(NULL, selecao), *l;
-//     l = get_listl(arq, t, faux_jogadores_da_selecao, lista);
-//     free(lista);
-//     return l;
-// }
+// (12) Alteração SOMENTE de algumas informações, por exemplo,
+//número da camisa que ele usa em sua respectiva seleção,
+
+
+// (13) Busca de todos os jogadores de uma seleção;
 
 // (14) Busca e remoção de todos os capitães;
-int ver_capitao(TJ *j){
-    return j->capitao;
-}
-char *remove_capitao(char *arq, int t){
-    return rem_generico(arq, t, ver_capitao);
-}
 
 // (15) Remoção de jogadores a partir de uma determinada idade;
-int tem_tal_idade(TJ *j, TLSE *l){
-    int idade = *((int *) TLSE_get(l, 0));
-    return j->idade == idade;
-}
-char *remove_jogadores_pela_idade(char *arq, int t, int idade){
-    TLSE *l = TLSE_insini(NULL, &idade);
-    return rem_genericol(arq, t, tem_tal_idade, l);
-}
 
-// // (16) Retirada de todos os jogadores de uma seleção que atuam num determinado país;
-// char* retira_jog_selecao_pais(char *raiz, char *tabela, char *selecao, char *pais, int t){
-	
-// 	int contador;
-// 	TJ jogador;
-// 	TABMJ *aux = cria_no(t);
-// 	int *ids = le_tabela_selecao(tabela, selecao, &contador);
-	
-// 	for (int i = 0; i<contador; i++){
-		
-// 		char *no = busca(raiz, ids[i], t);
-// 		leitura(no, aux);
-		
-// 		for(int j = 0; j<aux->nchaves; j++) if(aux->chave[j].id == ids[i]) jogador = aux->chave[j];
-		
-// 		if (!strcmp(jogador.pais_atual, pais)){
-// 			raiz = retira(raiz, ids[i], t);
-// 			retira_tabela_selecao(tabela, ids[i]);
-// 		}
-		
-// 	}
-	
-// 	free(ids);
-// 	libera_no(aux);
-// 	return raiz;
-// }
+// (16) Retirada de todos os jogadores de uma seleção que atuam num determinado país;
 
-// // (17) Retirada de todos os os jogadores de uma seleção que não atuam no país de origem;
-// char* retira_jog_selecao_Norigem(char *raiz, char *tabela, char *selecao, int t){
-	
-// 	int contador;
-// 	TJ jogador;
-// 	TABMJ *aux = cria_no(t);
-// 	int *ids = le_tabela_selecao(tabela, selecao, &contador);
-	
-// 	for (int i = 0; i<contador; i++){
-		
-// 		char *no = busca(raiz, ids[i], t);
-// 		leitura(no, aux);
-		
-// 		for(int j = 0; j<aux->nchaves; j++) if(aux->chave[j].id == ids[i]) jogador = aux->chave[j];
-		
-// 		if (strcmp(jogador.pais_atual, jogador.pais_origem)){
-// 			raiz = retira(raiz, ids[i], t);
-// 			retira_tabela_selecao(tabela, ids[i]);
-// 		}
-		
-// 	}
-	
-// 	free(ids);
-// 	libera_no(aux);
-// 	return raiz;
-// }
 
-// // (18) Retirada de todos os os jogadores de uma seleção atuam fora do país de origem;
-// char *remove_jogadores_fora_do_pais_de_origem(char *arq, int t, int idade){
-//     return rem_generico(arq, t, jogadores_fora_do_pais_de_origem);
-// }
+// (17) Retirada de todos os os jogadores de uma seleção que não atuam no país de origem;
 
-// // (19) Retirada de todos os os jogadores de uma seleção; e
-// char *retira_selecao(char *arq, int t, char *tabela, char *selecao){
-//     int c, i;
-//     int *ids = le_tabela_selecao(tabela, selecao, &c);
-//     for(i = 0; i < c; i++){
-// 		arq = remover(arq, ids[i], t);
-// 		retira_tabela_selecao(tabela, ids[i]);
-// 	}
-//     free(ids);
-//     return arq;
-// }
 
-// // (20) Remoção de jogadores, dado um conjunto contendo suas chaves primárias.
-char *remocao_por_chaves(char *arq, int t, TLSE *chaves){
-    int *p;
-    while(chaves){
-        arq = remover(arq, *((int *) chaves->dado), t);
-        chaves = chaves->prox;
-    }
-    return arq;
-}
+// (18) Retirada de todos os os jogadores de uma seleção atuam fora do país de origem;
+
+// (19) Retirada de todos os os jogadores de uma seleção; e
+
+
+// (20) Remoção de jogadores, dado um conjunto contendo suas chaves primárias.

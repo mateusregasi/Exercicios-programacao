@@ -21,11 +21,11 @@ TLSE *TLSE_insini(TLSE *n, void *e){
     return novo;
 }
 TLSE *TLSE_insfim(TLSE *n, void *e){
-    if(!n) return TLSE_cria(e);
-    TLSE *a = n;
+    TLSE *novo = TLSE_cria(e), *a = n;
+    if(!n) return novo;
     while(a->prox)
         a = a->prox;
-    a->prox = TLSE_cria(e);
+    a->prox = novo;
     return n;
 }
 TLSE *TLSE_insfim_rec(TLSE *n, void *e){
@@ -175,7 +175,7 @@ void *TLSE_menor(TLSE *l, cmpf *f){
     return m;
 }
 int TLSE_menori(TLSE *l, cmpf *f){
-    if(!l) return l;
+    if(!l) return -1;
     void *m = l->dado;
     int c = 1, cm = 0;
     l = l->prox;
