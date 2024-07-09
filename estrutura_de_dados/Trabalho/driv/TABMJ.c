@@ -8,7 +8,8 @@
 typedef struct jogador{
     int id,
         camisa,
-        capitao;
+        capitao,
+        idade;
     char posicao[3],
          nome[51],
          nascimento[11];
@@ -35,6 +36,7 @@ void imprime_jog(TJ *j){
     printf("posicao: %s", j->posicao);
     printf("\nnome: %s", j->nome);
     printf("\nnascimento: %s", j->nascimento);
+    printf("\npais de origem: %s", j->pais_origem);
     printf("\npais atual: %s", j->pais_atual);
     printf("\ntime: %s", j->time);
     printf("\n\n");
@@ -510,6 +512,7 @@ TJ *TJ_copia(TJ *j){
     c->capitao = j->capitao;
     c->n_partidas = j->n_partidas;
     c->n_gols = j->n_gols;
+    c->idade = j->idade;
     strcpy(c->posicao, j->posicao);
     strcpy(c->nome, j->nome);
     strcpy(c->nascimento, j->nascimento);
@@ -568,14 +571,11 @@ TJ *le_registro_jogador(TJ *j, FILE *f, char *pais_origem){
     strcpy(j->nome, nome);
 
     // Formata a data
-    char meses[13][20] = {"January","February","March","April","May","June","July","August","September","October","November","December"},
-        mes[10];
     int dia, ano, i;
-    sscanf(data, "%d", &dia);
-    p = (strchr(data, ' ')) + 1;
-    sscanf(p, "%s", mes);
-    p = (strchr(p, ' ')) + 1;
-    sscanf(p, "%d", &ano);
+    char mes[10];
+    sscanf(data, "%d %s %d (aged %d)", &dia, mes, &ano, &j->idade);
+
+    char meses[13][20] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
     for(i=0; strcmp(meses[i], mes); i++);
     sprintf(j->nascimento, "%d-%s%d-%s%d", ano, (i+1 < 10) ? "0" : "", i+1, (dia < 10) ? "0" : "", dia);
 
@@ -1009,8 +1009,8 @@ int ver_pais_atual(TJ *j, TLSE *l){
     return (strcmp(j->pais_atual, pais_atual) == 0);
 }
 int faux_jogadores_mais_novos_e_mais_velhos(TJ *j, TLSE *l){
-    VERL *v = TLSE_get(l, 2);
-    if(!v || v(j, NULL)){
+    VERL *v = (VERL *) TLSE_get(l, 2);
+    if(!v || v(j, l->prox->prox->prox)){
         if(!TLSE_get(l, 0)){
             TLSE_set(l, 0, TJ_copia(j));
             TLSE_set(l, 1, TJ_copia(j));
@@ -1032,6 +1032,28 @@ TLSE *jogadores_mais_novos_e_mais_velhos(char *arq, int t){
     TLSE *l = TLSE_insini(NULL, NULL);
     l = TLSE_insini(l, NULL);
     get_listl(arq, t, faux_jogadores_mais_novos_e_mais_velhos, l);
+    return l;
+}
+TLSE *jogadores_mais_novos_e_mais_velhos_por_posicao(char *arq, int t, char *posicao){
+    TLSE *l = TLSE_insini(NULL, NULL);
+    l = TLSE_insini(l, NULL);
+    l = TLSE_insfim(l, ver_posicao);
+    l = TLSE_insfim(l, posicao);
+    get_listl(arq, t, faux_jogadores_mais_novos_e_mais_velhos, l);
+    free(l->prox->prox->prox);
+    free(l->prox->prox);
+    l->prox->prox = NULL;
+    return l;
+}
+TLSE *jogadores_mais_novos_e_mais_velhos_por_selecao(char *arq, int t, char *selecao){
+    TLSE *l = TLSE_insini(NULL, NULL);
+    l = TLSE_insini(l, NULL);
+    l = TLSE_insfim(l, ver_pais_atual);
+    l = TLSE_insfim(l, selecao);
+    get_listl(arq, t, faux_jogadores_mais_novos_e_mais_velhos, l);
+    free(l->prox->prox->prox);
+    free(l->prox->prox);
+    l->prox->prox = NULL;
     return l;
 }
 
@@ -1245,15 +1267,6 @@ char *ver_quant_lista_dupla_retorna_string(char *arq, int t, VER *f){
     l = TLSE_insini(l, NULL);
     l = TLSE_insfim(l, f);
     get_listl(arq, t, faux_ver_quant_lista_dupla_retorna_string, l);
-
-
-    TLSE *a1 = (TLSE *) l->dado, *a2 = l->prox->dado;
-    while(a1){
-        printf("%s: %d\n", (char *) a1->dado, *((int *) a2->dado));
-        a1 = a1->prox;
-        a2 = a2->prox;
-    }
-
     int i = TLSE_maiori(l->prox->dado, cmpfint);
     char *str = (char *) malloc(sizeof(char) * 30);
     strcpy(str, (char *) TLSE_get(l->dado, i));
@@ -1400,7 +1413,7 @@ void alteracao_time(char *arq, int t, int id, char *novo){
 // (13) Busca de todos os jogadores de uma seleção;
 int faux_jogadores_da_selecao(TJ *j, TLSE *l){
     char *s = (char *) TLSE_get(l, 0);
-    if(strcmp(j->pais_atual, s)) return 1;
+    if(strcmp(j->pais_origem, s) == 0) return 1;
     return 0;
 }
 TLSE *jogadores_da_selecao(char *arq, int t, char *selecao){
@@ -1411,22 +1424,23 @@ TLSE *jogadores_da_selecao(char *arq, int t, char *selecao){
 }
 
 // (14) Busca e remoção de todos os capitães;
-/*int eh_capitao(TJ *j){
+int eh_capitao(TJ *j){
     return j->capitao;
 }
 char *remove_capitao(char *arq, int t){
     return rem_generico(arq, t, eh_capitao);
-}*/
+}
 
 // (15) Remoção de jogadores a partir de uma determinada idade;
-/* int tem_tal_idade(TJ *j, TLSE *l){
+int tem_tal_idade(TJ *j, TLSE *l){
     int idade = *((int *) TLSE_get(l, 0));
     return j->idade == idade;
 }
 char *remove_jogadores_pela_idade(char *arq, int t, int idade){
     TLSE *l = TLSE_insini(NULL, &idade);
     return rem_genericol(arq, t, tem_tal_idade, l);
-}*/
+    return NULL;
+}
 
 // (16) Retirada de todos os jogadores de uma seleção que atuam num determinado país;
 char* retira_jog_selecao_pais(char *raiz, char *tabela, char *selecao, char *pais, int t){
