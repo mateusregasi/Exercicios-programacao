@@ -63,6 +63,33 @@ char *escolhe_selecao(char *s){
 	}
 	return s;
 }
+char *escolhe_posicao(char *s){
+	printf("LISTA DE POSIÇÕES:\n");
+	printf("1 - GK\n");
+	printf("2 - FW\n");
+	printf("3 - DF\n");
+	printf("4 - MF\n");
+	printf("\nDigite o número de 1 a 4: ");
+	int n;
+	scanf("%d", &n);
+	if(n==1){
+		strcpy(s, "GK");
+	}
+	else if(n==2){
+		strcpy(s, "FW");
+	}
+	else if(n==3){
+		strcpy(s, "DF");
+	}
+	else if(n==4){
+		strcpy(s, "MF");
+	}
+	else{
+		printf("Opção invalida!");
+		s = escolhe_posicao(s);	
+	}
+	return s;
+}
 
 int main(void){
 
@@ -100,8 +127,8 @@ int main(void){
 		printf("11 - Busca das informações subordinadas, dadas a chave primária (identificador único do jogador)\n");
 		printf("12 - Alteração SOMENTE de algumas informações\n");
 		printf("13 - Busca de todos os jogadores de uma seleção\n");
-		printf("14 - Busca e remoção de todos os capitães - FUNÇÃO BLOQUEADA\n");
-		printf("15 - Remoção de jogadores a partir de uma determinada idade - FUNÇÃO BLOQUEADA\n");
+		printf("14 - Busca e remoção de todos os capitães\n");
+		printf("15 - Remoção de jogadores a partir de uma determinada idade\n");
 		printf("16 - Retirada de todos os jogadores de uma seleção que atuam num determinado país\n");
 		printf("17 - Retirada de todos os os jogadores de uma seleção que não atuam no país de origem\n");
 		printf("18 - Retirada de todos os os jogadores de uma seleção atuam fora do país de origem\n");
@@ -113,14 +140,39 @@ int main(void){
 		scanf("%d", &opcao);
 		
 		if(opcao == 1){
-			TLSE *Q1 = jogadores_mais_novos_e_mais_velhos(raiz, t);
-			
-			printf("Mais novo:");
-    		imprime_jog((TJ*)TLSE_get(Q1, 0));
-			printf("Mais velho:");
-			imprime_jog((TJ*)TLSE_get(Q1, 1));
+			int op1;
+			printf("O que deseja fazer?\n");
+			printf("1 - Retorno do jogador mais novo e mais velho da competição\n"); //////
+			printf("2 - Retorno do jogador mais novo e mais velho de uma determinada seleção\n");
+			printf("3 - Retorno do jogador mais novo e mais velho de uma determinada posição\n");
+			printf("\nDigite o número de 1 a 3: ");
+			scanf("%d", &op1);
+			TLSE *Q1 = NULL;
 
-            TLSE_libera(Q1);
+			if(op1 == 1){
+				Q1 = jogadores_mais_novos_e_mais_velhos(raiz, t);
+			} else if(op1 == 2){
+				char *str1 = (char *) malloc(sizeof(char) * 30);
+				str1 = escolhe_selecao(str1);
+				Q1 = jogadores_mais_novos_e_mais_velhos_por_selecao(raiz, t, str1);
+				free(str1);
+			} else if(op1 == 3){
+				char *str1 = (char *) malloc(sizeof(char) * 30);
+				str1 = escolhe_posicao(str1);
+				Q1 = jogadores_mais_novos_e_mais_velhos_por_posicao(raiz, t, str1);
+				free(str1);
+			}
+
+			if(!Q1){
+				printf("Inválido!!!\n");
+			}else{
+				printf("Mais novo:");
+	    		imprime_jog((TJ*)TLSE_get(Q1, 0));
+				printf("Mais velho:");
+				imprime_jog((TJ*)TLSE_get(Q1, 1));
+	            TLSE_libera(Q1);
+			}
+
 			printf("\n--------------------------------------------------------------------------\n");
 		}
 		
@@ -300,20 +352,19 @@ int main(void){
 				p = TLSE_retini(p, NULL);
 			}
 			free(sel);
-
 		}
 		
-		/*else if(opcao == 14){
+		else if(opcao == 14){
 			raiz = remove_capitao(raiz, t);
 			imprime(raiz, t);
-		}*/
-		/*else if(opcao == 15){
+		}
+		else if(opcao == 15){
 			int idade;
 			printf("Digite a idade: ");
-			scanf("%d\n", &idade);
+			scanf("%d", &idade);
 			raiz = remove_jogadores_pela_idade(raiz, t, idade);
 			imprime(raiz, t);
-		}*/
+		}
 		
 		else if(opcao == 16){
 			printf("Escolha a seleção: \n");
@@ -321,8 +372,8 @@ int main(void){
 			sel1 = escolhe_selecao(sel1);
 			printf("Escolha o país de atuação: \n");
 			char *sel2 = malloc(sizeof(char)*50);
-			sel2 = escolhe_selecao(sel2);
-			raiz = retira_jog_selecao_pais(raiz, selecoes, "sel1", "sel2", t);
+			scanf("%s", sel2);
+			raiz = retira_jog_selecao_pais(raiz, selecoes, sel1, sel2, t);
 			imprime(raiz, t);
 			free(sel1);
 			free(sel2);
