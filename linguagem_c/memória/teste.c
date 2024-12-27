@@ -1,15 +1,9 @@
 #include <stdio.h>
-
-void f(){
-	int x;
-	printf("%p\n", &x);
-}
+#include <stdlib.h>
 
 int main(){
-	int x, y;
-	printf("%p\n", &x);
-	printf("%p\n", &y);
-	f();
-	return 0;
+	char *p = "Hello, World";
+	char *str = (char *) malloc(sizeof(char) * 14);
+	for(int i=0; i<14; i++) str[i] = p[i];
+	printf("%s\n", str);
 }
-
