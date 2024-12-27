@@ -14,3 +14,9 @@ apaga(X,[A|B],L2) :-
 
 % apaga(a,[a,b,a,c],L).
 % apaga(a,L,[b,c]).
+
+% apaga(_,[],[]).
+% apaga(X,[X|F1],F2) :- 
+%     apaga(X,F1,F2),!.
+% apaga(X,[C|F1],[C|F2]) :- 
+%     apaga(X,F1,F2).
