@@ -1,0 +1,24 @@
+-------- 02/01/2025 --------
+
+Especificação do trabalho: 
+
+Problema de encontrar rotas para entrega de produtos: Dado um mapa de uma cidade, com ruas e avenidas, o programa deve encontrar uma rota de um ponto A, de onde o entregador parte, a um ponto B, onde a entrega deve ser realizada. A rota deve ser especificada pelas ruas que o entregador deve percorrer.
+
+- Foi gerado uma base de dados com o chatgpt.
+- Criei um algoritmo em python que mostrava os nós.
+
+Fiquei estudando sobre algoritmos de busca até a próxima data.
+
+-------- 13/01/2025 --------
+
+Estudando algoritmos de busca. Escolhi o A*. Comecei a pensar como implementar no prolog.
+
+-------- 16/01/2025 --------
+
+Tive a ideia de criar um script em python mesmo que gerasse o grafo, definindo número de vértices, de arestas e espaço em que os vértices estavam contidos. 
+
+Comecei a implementar em prolog e fui fazendo modificações até a próxima data.
+
+-------- 18/01/2025 --------
+
+Terminei a implementação do algoritmo A* no prolog. Implementei o arquivo que lê o export e gera o grafico do grafo.

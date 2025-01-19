@@ -20,9 +20,8 @@ from sklearn.metrics import hamming_loss
 # Carregar arquivo CSV
 data = pd.read_csv('data.csv', delimiter=',')
 
-# Convertendo colunas com valores de texto usando On-Hot Encoding
-categorical_cols = data.select_dtypes(include=['object']).columns
-data = pd.get_dummies(data, columns=categorical_cols, drop_first=True)
+# Retirando o id da tabela (porque não importa)
+data = data.drop(columns="STUDENT ID")
 
 # Separando os dados por feature e target
 target = 'COURSE ID'
@@ -31,16 +30,16 @@ y = data[target]  # Vai classificar só o G1
 
 # Separando dados para treino e teste
 re = 82
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=re)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state=re)
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 # -=-=-=-=-=-=-=-=-=-=-=-= Usando os modelos -=-=-=-=-=-=-=-=-=-=-=-=
 
 # Importando os modelos que serão utilizados
-tree_model = DecisionTreeClassifier(random_state=re)
-forest_model = RandomForestClassifier(n_estimators=100, random_state=re)
-mlp_model = MLPClassifier(hidden_layer_sizes=(100,), max_iter=1000, random_state=re)
+tree_model = DecisionTreeClassifier(random_state=68)
+forest_model = RandomForestClassifier(n_estimators=10, random_state=0)
+mlp_model = MLPClassifier(hidden_layer_sizes=(20,), max_iter=1000, random_state=re)
 
 # Modelo 1: Árvore de Decisão
 tree_model.fit(x_train, y_train)
