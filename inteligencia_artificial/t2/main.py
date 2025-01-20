@@ -5,7 +5,7 @@ import matplotlib.pyplot as pl
 
 # Variáveis importantes
 origem = 1
-destino = 8
+destino = 20
 arquivo = 'export.pl'
 
 # Executa a base de dados e as regras
@@ -14,6 +14,17 @@ Prolog.consult('main.pl')
 
 # Pega o resultado
 resultado = list(Prolog.query(f"caminho({origem},{destino},List)"))[0]['List']
+
+def custo(resultado, arestas):
+    c = 0
+    for i in range(len(resultado)-1):
+        x = resultado[i]
+        y = resultado[i+1]
+        for a in arestas:
+            if x == a[0] and y == a[1]:
+                c += a[2]
+                break
+    return c
 
 # Pega o arquivo original
 arestas = []
@@ -50,6 +61,8 @@ for a in arestas_resultado:
 cor = [g.edges[(u,v)]['color'] for u,v in g.edges]
 espessuras = [g.edges[(u,v)]['weight'] for u,v in g.edges]
 
+# Printa o custo
+print(custo(resultado, arestas))
 
 # Desenha o grafo
 nx.draw(g, pos, edge_color=cor, width=espessuras, with_labels=True, node_size=200)

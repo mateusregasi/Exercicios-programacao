@@ -5,12 +5,13 @@ import networkx as nx
 import matplotlib.pyplot as pl
 from random import randint
 
-# Gera o grafo
+# Variáveis importantes
 num_vertices = 20
-num_arestas = 100
+num_arestas = 40
 espaco = 100
 arquivo = "export.pl"
 
+# Gera o grafo
 def geraVertice(n, s):
     return (n, randint(1, s+1), randint(1, s+1))
 def geraAresta(nv, n):
@@ -21,7 +22,11 @@ def geraAresta(nv, n):
     return (n1[0], n2[0], int(abs((n2[1] - n1[1]) + (n2[2] - n1[2])) ** 0.5))
 
 vertices = [geraVertice(i, espaco) for i in range(1, num_vertices+1)]
-arestas = [geraAresta(num_vertices, vertices) for _ in range(num_arestas)]
+arestas = set()
+while(len(arestas) != 2*num_arestas): 
+    aresta = geraAresta(num_vertices, vertices)
+    arestas.add(aresta)
+    arestas.add((aresta[1], aresta[0], aresta[2]))
 
 # Exporta o grafo em prolog
 f = open(arquivo, 'w')
@@ -29,7 +34,6 @@ for n in vertices:
     f.write(f"node({n[0]},{n[1]},{n[2]}).\n")
 for e in arestas:
     f.write(f"edge({e[0]},{e[1]},{e[2]}).\n")
-    f.write(f"edge({e[1]},{e[0]},{e[2]}).\n")
 f.close()
 
 # Cria o grafo
