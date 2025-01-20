@@ -1,10 +1,10 @@
-# Função de avaliação heurística que consiste na distância entre dois nós
+% Função de avaliação heurística que consiste na distância entre dois nós
 avaliacao(Origem, Dest, Resultado) :-
     node(Origem, Xo, Yo),
     node(Dest, Xd, Yd),
     Resultado is ceil(abs((Xd - Xo) ** 2 + (Yd - Yo) ** 2) ** 0.5).
 
-# Insere nó ordenado em uma fila de prioridades
+% Insere nó ordenado em uma fila de prioridades
 insNoOrd([noFila([A|CaudaA],CA)|B], noFila([H|CaudaH],CH), Res, Dest) :- 
     avaliacao(A,Dest,AA),
     avaliacao(H,Dest,AH),
@@ -23,17 +23,17 @@ insNoOrd([noFila([A|CaudaA],CA)|B], noFila([H|CaudaH],CH), Res, Dest) :-
     )
     , !.
 
-# Verifica se determinado elemento está em uma lista
+% Verifica se determinado elemento está em uma lista
 naLista(Elemento, [Elemento|_]) :- !.
 naLista(Elemento, [_|B]) :- naLista(Elemento, B).
 
-# Verifica se determinado elemento está na fila de prioridade com nós nesse formato: noFila(ListaDeCaminho, CustoDoCaminho)
+% Verifica se determinado elemento está na fila de prioridade com nós nesse formato: noFila(ListaDeCaminho, CustoDoCaminho)
 naFila(Elemento, noFila([Elemento|_], _)) :- !.
 naFila(Elemento, [noFila([Elemento|_], _)|_]) :- !.
 naFila(Elemento, [noFila([_|_], _)|Proximo]) :-
     naFila(Elemento, Proximo).
 
-# À partir de um nó, pega os filhos e ordena os caminhos do menos custoso para o mais custoso 
+% À partir de um nó, pega os filhos e ordena os caminhos do menos custoso para o mais custoso 
 ordenaFilhos(Dest,noFila([Origem|CaminhoAnterior],Custo),[],FilaFinal) :-
 	edge(Origem,Filho,CustoFilho),
     \+ naLista(Filho,CaminhoAnterior),
@@ -49,7 +49,7 @@ ordenaFilhos(Dest,noFila([Origem|CaminhoAnterior],Custo),FilaAnterior,FilaFinal)
 ordenaFilhos(_,_,FilaAnterior,FilaFinal) :-
     FilaFinal = FilaAnterior.
 
-# Concatena a fila de prioridade dos filhos achados pelo ordenaFilhos() com a fila de prioridades acumulada na função de busca
+% Concatena a fila de prioridade dos filhos achados pelo ordenaFilhos() com a fila de prioridades acumulada na função de busca
 insFilaPrioridades(A, [], A, _) :-!.
 insFilaPrioridades([], B, B, _) :-!.
 insFilaPrioridades([noFila([A|CaudaA],CA)|FilaA], [noFila([B|CaudaB],CB)|FilaB], [Res|ProxFila], Dest) :-
@@ -101,11 +101,11 @@ insFilaPrioridades(noFila([A|CaudaA],CA), noFila([B|CaudaB],CB), [Res|ProxFila],
     		ProxFila = noFila([A|CaudaA],CA)
     ),!.
 
-# Função de busca principal do programa. Consiste em pegar o caminho atual, verificar os filhos do último nó, ordenar os caminhos na fila de prioridade pelo menos custoso, e partir pro primeiro elemento da fila de prioridades. Quando acha o destino, para o algoritmo. Se não achar nada retorna uma fila nula.
+% Função de busca principal do programa. Consiste em pegar o caminho atual, verificar os filhos do último nó, ordenar os caminhos na fila de prioridade pelo menos custoso, e partir pro primeiro elemento da fila de prioridades. Quando acha o destino, para o algoritmo. Se não achar nada retorna uma fila nula.
 busca(noFila([Dest|Caminho], _),Dest,CaminhoFinal) :-
     CaminhoFinal = [Dest|Caminho], !.
-busca([noFila([Dest|Caminho],_)|_],Dest,CaminhoFinal) :-
-    CaminhoFinal = [Dest|Caminho], !.
+busca([noFila(A,_)|B],Dest,A) :-
+    naFila(Dest,[noFila(A,_)|B]), !.
 busca([],_,[]).
 
 busca([NoAtual|RestoFila], Dest, Caminho) :- 
@@ -122,7 +122,7 @@ busca(NoAtual, Dest, Caminho) :-
 busca(_, Dest, Caminho) :- 
     busca([],Dest,Caminho).
 
-# Função que chama a função de busca
+% Função que chama a função de busca
 caminho(Origem, Dest, Lista) :-
     avaliacao(Origem,Dest,CustoInicial),
     busca([noFila([Origem], CustoInicial)], Dest, Lista).

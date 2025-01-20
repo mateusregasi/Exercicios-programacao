@@ -22,3 +22,8 @@ Comecei a implementar em prolog e fui fazendo modificações até a próxima dat
 -------- 18/01/2025 --------
 
 Terminei a implementação do algoritmo A* no prolog. Implementei o arquivo que lê o export e gera o grafico do grafo.
+
+-------- 20/01/2025 --------
+
+Resolvendo problema da aresta direcionada e do destino não estar no primeiro elemento da fila. 
+Criando uma interface para ver o caminho resultado.
