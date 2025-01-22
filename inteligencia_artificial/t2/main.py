@@ -2,10 +2,11 @@
 from pyswip import Prolog
 import networkx as nx
 import matplotlib.pyplot as pl
+from time import time
 
 # Variáveis importantes
 origem = 1
-destino = 20
+destino = 200
 arquivo = 'export.pl'
 
 # Executa a base de dados e as regras
@@ -13,7 +14,9 @@ Prolog.consult(arquivo)
 Prolog.consult('main.pl')
 
 # Pega o resultado
+inicio = time()
 resultado = list(Prolog.query(f"caminho({origem},{destino},List)"))[0]['List']
+fim = time()
 
 def custo(resultado, arestas):
     c = 0
@@ -61,8 +64,9 @@ for a in arestas_resultado:
 cor = [g.edges[(u,v)]['color'] for u,v in g.edges]
 espessuras = [g.edges[(u,v)]['weight'] for u,v in g.edges]
 
-# Printa o custo
-print(custo(resultado, arestas))
+# Printa o e o tempo de execução
+print("Distância percorrida: ", custo(resultado, arestas))
+print("Tempo de execução do algoritmo: ", fim - inicio)
 
 # Desenha o grafo
 nx.draw(g, pos, edge_color=cor, width=espessuras, with_labels=True, node_size=200)
