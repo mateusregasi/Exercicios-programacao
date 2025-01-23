@@ -5,8 +5,8 @@ import matplotlib.pyplot as pl
 from time import time
 
 # Variáveis importantes
-origem = 1
-destino = 200
+origem = 7
+destino = 10
 arquivo = 'export.pl'
 
 # Executa a base de dados e as regras
@@ -65,6 +65,7 @@ cor = [g.edges[(u,v)]['color'] for u,v in g.edges]
 espessuras = [g.edges[(u,v)]['weight'] for u,v in g.edges]
 
 # Printa o e o tempo de execução
+print("Caminho percorrido: ", resultado)
 print("Distância percorrida: ", custo(resultado, arestas))
 print("Tempo de execução do algoritmo: ", fim - inicio)
 

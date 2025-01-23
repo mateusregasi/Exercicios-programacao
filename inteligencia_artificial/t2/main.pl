@@ -33,6 +33,12 @@ naFila(Elemento, [noFila([Elemento|_], _)|_]) :- !.
 naFila(Elemento, [noFila([_|_], _)|Proximo]) :-
     naFila(Elemento, Proximo).
 
+% Pega o caminho correto se estiver na fila
+pegaCaminho(Elemento, noFila([Elemento|RestoCaminho], _), [Elemento|RestoCaminho]) :- !.
+pegaCaminho(Elemento, [noFila([Elemento|RestoCaminho], _)|_], [Elemento|RestoCaminho]) :- !.
+pegaCaminho(Elemento, [noFila([_|_], _)|Proximo], Caminho) :-
+    pegaCaminho(Elemento, Proximo, Caminho).
+
 % À partir de um nó, pega os filhos e ordena os caminhos do menos custoso para o mais custoso 
 ordenaFilhos(Dest,noFila([Origem|CaminhoAnterior],Custo),[],FilaFinal) :-
 	edge(Origem,Filho,CustoFilho),
@@ -104,21 +110,26 @@ insFilaPrioridades(noFila([A|CaudaA],CA), noFila([B|CaudaB],CB), [Res|ProxFila],
 % Função de busca principal do programa. Consiste em pegar o caminho atual, verificar os filhos do último nó, ordenar os caminhos na fila de prioridade pelo menos custoso, e partir pro primeiro elemento da fila de prioridades. Quando acha o destino, para o algoritmo. Se não achar nada retorna uma fila nula.
 busca(noFila([Dest|Caminho], _),Dest,CaminhoFinal) :-
     CaminhoFinal = [Dest|Caminho], !.
-busca([noFila(A,_)|B],Dest,A) :-
-    naFila(Dest,[noFila(A,_)|B]), !.
 busca([],_,[]).
 
 busca([NoAtual|RestoFila], Dest, Caminho) :- 
     ordenaFilhos(Dest,NoAtual,[],Filhos),
-    insFilaPrioridades(Filhos,RestoFila,NovaFila,Dest),
-    busca(NovaFila,Dest,Caminho),!.
+    (
+        pegaCaminho(Dest, Filhos, Caminho)
+    ;
+        insFilaPrioridades(Filhos,RestoFila,NovaFila,Dest),
+        busca(NovaFila,Dest,Caminho)
+    ),!.
 busca([_|RestoFila], Dest, Caminho) :- 
     busca(RestoFila,Dest,Caminho),!.
 
 busca(NoAtual, Dest, Caminho) :- 
     ordenaFilhos(Dest,NoAtual,[],Filhos),
-    insFilaPrioridades(Filhos,[],NovaFila,Dest),
-    busca(NovaFila,Dest,Caminho),!.
+    (
+        pegaCaminho(Dest, Filhos, Caminho)
+    ;
+        busca(Filhos,Dest,Caminho)
+    ),!.
 busca(_, Dest, Caminho) :- 
     busca([],Dest,Caminho).
 

@@ -6,9 +6,9 @@ import matplotlib.pyplot as pl
 from random import randint
 
 # Variáveis importantes
-num_vertices = 1000
-num_arestas = 2000
-espaco = 1000
+num_vertices = 10
+num_arestas = 15
+espaco = 100
 arquivo = "export.pl"
 
 # Gera o grafo
