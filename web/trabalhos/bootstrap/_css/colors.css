@@ -1,0 +1,11 @@
+*{
+    --color1: #4D4D4D;
+    --color2: #999999;
+    --color3: #E5E5E5;
+    --colorwhite: #fffFFF;
+    --colorblack: #000000;
+}
+
+.color-white{
+    filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(116deg) brightness(109%) contrast(109%);
+}

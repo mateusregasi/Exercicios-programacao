@@ -1,0 +1,31 @@
+.navbar-brand{
+    font-family: 'Roboto Mono';
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--colorwhite) !important;
+}
+
+.navbar{
+    background-color: var(--color2) !important;
+    color: var(--colorwhite) !important;
+}
+
+.navbar-collapse a{
+    color: var(--colorwhite) !important;
+    font-family: 'Roboto Mono';
+    font-size: 1.5em;
+}   
+
+.navbar-icon{
+    width: 40px;
+}
+
+@media (max-width: 767.98px) { 
+.navbar-icon, .navbar-brand{
+    display: none;
+}
+.navbar > .container{
+    justify-content: center;
+}
+
+}

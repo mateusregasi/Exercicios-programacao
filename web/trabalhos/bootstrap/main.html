@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <style>@import "_css/main.css";</style>
+    <script src="components.js"></script>
+
+<style>
+
+.footer{
+    flex-direction: row;
+    background-color: var(--color2);
+    text-align: center;
+    flex-basis: auto;
+    height: 60px;
+}
+
+.footer > div{
+    flex-direction: row;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.footer p{
+    color: var(--colorwhite);
+    margin-bottom: 0;
+    display: inline;
+    height: max-content;
+}
+
+.rotate-180{
+    transform: rotate(180deg);
+}
+.icon{
+    width: 30px;
+}
+@media (max-width: 767px) {
+    .footer p{
+        font-size: 0.7rem;
+    }
+    .footer .navbar-icon{
+        display: none;
+    }
+}
+@media (min-width: 768px) and (max-width: 991px){
+    .footer .navbar-icon{
+        display: none;
+    }
+}
+@media (min-width: 992px){
+    .footer .navbar-icon{
+        width: 25px;
+    }
+}
+
+
+
+
+
+</style>
+
+</head>
+<body>
+    
+    <custom-navbar></custom-navbar>
+    <initial-display></initial-display>
+    <languages-display></languages-display>
+    <project-carousel></project-carousel>
+    <!-- <custom-footer></custom-footer> -->
+
+    <footer class="footer container-fluid d-inline-flex justify-content-around align-items-center">
+     
+        <div>
+            <p>Criado por Mateus Regasi</p>
+        </div>
+        <div>
+            <a href="#nav"><img src="_img/triangle.svg" alt="" class="color-white rotate-180 icon"></a>
+        </div>
+        <div>
+            <p>mateusregasi123@gmail.com</p>
+            <a href=""><img src="_img/email.svg" alt="" class="color-white navbar-icon ms-2"></a>
+            <a href=""><img src="_img/twitter.svg" alt="" class="color-white navbar-icon"></a>
+            <a href=""><img src="_img/instagram.svg" alt="" class="color-white navbar-icon"></a>
+        </div>
+
+    </footer>
+
+</body>
+</html>

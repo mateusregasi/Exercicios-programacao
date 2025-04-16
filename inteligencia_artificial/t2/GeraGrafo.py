@@ -6,8 +6,8 @@ import matplotlib.pyplot as pl
 from random import randint
 
 # Variáveis importantes
-num_vertices = 10
-num_arestas = 15
+num_vertices = 7
+num_arestas = 22
 espaco = 100
 arquivo = "export.pl"
 

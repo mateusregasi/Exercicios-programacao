@@ -1,0 +1,83 @@
+.initial_display{
+    background-color: var(--colorwhite);
+    padding:0;
+}
+
+.initial_display h1{
+    font-family: "Roboto Mono";
+    font-size: 3em;
+}
+.initial_display p{
+    font-family: "Roboto Mono";
+    font-size: 1em;
+}
+
+.initial_display footer{
+    background-color: var(--color2);
+    width: 100%;
+    height: 10px;
+    z-index: 0;
+}
+
+.initial_display img{
+    z-index: 1;
+}
+
+.initial_display aside{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.initial_display .btn{
+    font-size: 1.3em;
+    font-weight: bold;
+    background-color: var(--color2) !important;
+    border-color: var(--color3) !important;
+    border-radius: 20px;
+    height: 50px;
+    width: 200px;
+}
+
+.initial_display .btn:hover{
+    background-color: var(--color1) !important;
+    border-color: var(--colorwhite) !important;
+}
+
+.initial_display .btn:active{
+    background-color: var(--color3) !important;
+}
+
+
+@media (max-width: 991px) {
+    .initial_display{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        padding-top: 30px;
+    }
+    .initial_display img{
+        object-fit: none;
+        height: 400px;
+        width: 500px;
+        object-position: 70% 5%;
+    }
+}
+@media (min-width: 992px) {
+    .initial_display{
+        height: 500px;
+    }
+    .initial_display img{
+        position: absolute;
+        width: 500px;
+        left: 15%;  
+    }
+    .initial_display aside{
+        width: 400px;
+        position: relative;
+        left: 60%;
+        top: 30%;
+    }
+    
+}

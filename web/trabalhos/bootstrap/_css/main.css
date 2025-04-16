@@ -1,0 +1,14 @@
+@import "colors.css";
+@import "navbar.css";
+@import "initial_display.css";
+@import "languages.css";
+@import "carousel.css";
+@import "footer.css";
+
+body{
+    background-color: var(--color3);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    gap: 60px;
+}
