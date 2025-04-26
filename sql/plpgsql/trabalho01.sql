@@ -229,16 +229,15 @@ drop function if exists biblio.prever_entrega;
 create or replace function biblio.prever_entrega(nome_usuario text, num_paginas int, grau_polinomio int) returns double precision as $$
 declare
     mat int[];
+    v double precision[];
     y double precision[];
     x double precision[] = '{}';
-    aux int;
+    aux double precision;
     res double precision;
     n int default 0;
     reg record;
 begin
-
     -- Percorre todos os livros lidos pelo cliente e adiciona em um vetor
-    -- Ou seja, acha a matriz y
     for reg in select
         (emp.data_devolucao - emp.data_retirada + 1) / liv.num_paginas::float as dias
     from biblio.Cliente as cli 
@@ -246,8 +245,10 @@ begin
         join biblio.Livro as liv on emp.pk_copia_livro = liv.pk
     where emp.data_devolucao is not null and cli.nome = nome_usuario
     order by emp.data_retirada desc loop
-        y := array_append(y, reg.dias);
+        v := array_append(v, reg.dias);
         n := n + 1;
+
+        -- Sai do loop quando atinge o número de pontos necessários
         exit when n = grau_polinomio;
     end loop;
 
@@ -256,10 +257,23 @@ begin
         raise exception 'Grau do polinômio grande demais para base de dados';
     end if;
 
+    -- Monta o vetor y
+    for i in 1..grau_polinomio loop
+        aux := 0;
+        for j in 1..grau_polinomio loop
+            aux := aux + v[j] * power(j, i-1);
+        end loop;
+        y := array_append(y, aux);
+    end loop;
+
     -- Monta a matriz A
     for i in 1..grau_polinomio loop
         for j in 1..grau_polinomio loop
-            mat := array_append(mat, power(i, j-1));
+            aux := 0;
+            for k in 1..grau_polinomio loop
+                aux := aux + power(k, i+j-2);
+            end loop;
+            mat := array_append(mat, aux);
         end loop;
     end loop;
 
@@ -281,8 +295,10 @@ begin
 end
 $$ language plpgsql;
 
-select biblio.escalonamento(array[1,2,3,-5], array[5,4]);
 select biblio.prever_entrega('João da Silva', 100, 3);
+select biblio.prever_entrega('Maria Oliveira', 100, 3);
+select biblio.prever_entrega('Ana Beatriz Ramos', 100, 3);
+select biblio.escalonamento(array[1,2,3,-5], array[5,4]);
 select * from biblio.Cliente;
 
 -- Retorna a função com um casting para inteiro
