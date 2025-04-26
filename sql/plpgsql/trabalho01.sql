@@ -123,7 +123,46 @@ INSERT INTO biblio.Emprestimo (pk_cliente, pk_copia_livro, data_retirada, data_d
     (1, 3, '2024-12-05', '2024-12-20', '2024-12-17'),
     (1, 5, '2025-01-10', '2025-01-15', '2025-01-15'),
     (1, 6, '2025-02-01', '2025-02-20', '2025-02-15'),
-    (1, 10, '2025-04-10', NULL, '2025-04-17');
+    (1, 10, '2025-04-10', NULL, '2025-04-17'),
+    (2, 4, '2025-03-01', '2025-03-10', '2025-03-08'),
+    (3, 5, '2025-03-05', '2025-03-15', '2025-03-12'),
+    (4, 6, '2025-03-07', '2025-03-17', '2025-03-14'),
+    (5, 7, '2025-03-09', '2025-03-19', '2025-03-16'),
+    (6, 8, '2025-03-11', '2025-03-21', '2025-03-18'),
+    (7, 9, '2025-03-13', '2025-03-23', '2025-03-20'),
+    (8, 10, '2025-03-15', '2025-03-25', '2025-03-22'),
+    (1, 11, '2025-03-17', '2025-03-27', '2025-03-24'),
+    (2, 1, '2025-03-19', '2025-03-29', '2025-03-26'),
+    (3, 2, '2025-03-21', '2025-03-31', '2025-03-28'),
+    (4, 3, '2025-03-23', '2025-04-02', '2025-03-30'),
+    (5, 4, '2025-03-25', '2025-04-04', '2025-04-01'),
+    (6, 5, '2025-03-27', '2025-04-06', '2025-04-03'),
+    (7, 6, '2025-03-29', '2025-04-08', '2025-04-05'),
+    (8, 7, '2025-03-31', '2025-04-10', '2025-04-07'),
+    (1, 8, '2025-04-02', '2025-04-12', '2025-04-09'),
+    (2, 9, '2025-04-04', '2025-04-14', '2025-04-11'),
+    (3, 10, '2025-04-06', '2025-04-16', '2025-04-13'),
+    (4, 11, '2025-04-08', '2025-04-18', '2025-04-15'),
+    (5, 1, '2025-04-10', '2025-04-20', '2025-04-17'),
+    (6, 2, '2025-04-12', '2025-04-22', '2025-04-19'),
+    (7, 3, '2025-04-14', '2025-04-24', '2025-04-21'),
+    (8, 4, '2025-04-16', '2025-04-26', '2025-04-23'),
+    (1, 5, '2025-04-18', '2025-04-28', '2025-04-25'),
+    (2, 6, '2025-04-20', '2025-04-30', '2025-04-27'),
+    (3, 7, '2025-04-22', '2025-05-02', '2025-04-29'),
+    (4, 8, '2025-04-24', '2025-05-04', '2025-05-01'),
+    (5, 9, '2025-04-26', '2025-05-06', '2025-05-03'),
+    (6, 10, '2025-04-28', '2025-05-08', '2025-05-05'),
+    (7, 11, '2025-04-30', '2025-05-10', '2025-05-07'),
+    (8, 1, '2025-05-02', '2025-05-12', '2025-05-09'),
+    (1, 2, '2025-05-04', '2025-05-14', '2025-05-11'),
+    (2, 3, '2025-05-06', '2025-05-16', '2025-05-13'),
+    (3, 4, '2025-05-08', '2025-05-18', '2025-05-15'),
+    (4, 5, '2025-05-10', '2025-05-20', '2025-05-17'),
+    (5, 6, '2025-05-12', '2025-05-22', '2025-05-19'),
+    (6, 7, '2025-05-14', '2025-05-24', '2025-05-21'),
+    (7, 8, '2025-05-16', '2025-05-26', '2025-05-23'),
+    (8, 9, '2025-05-18', '2025-05-28', '2025-05-25');
 INSERT INTO biblio.AgendamentoMovimentacao (pk_origem, pk_destino, data_sapka, data_entrega, entregue) VALUES 
     (1, 2, '2025-04-15', '2025-04-18', FALSE),
     (2, 3, '2025-04-10', '2025-04-14', TRUE);
@@ -131,6 +170,122 @@ INSERT INTO biblio.CopiaMovimentacao (pk_copia_livro, pk_movimentacao) VALUES (2
 
 
 ------------------------ Questão nº1 ------------------------
+drop function if exists biblio.escalonamento;
+CREATE OR REPLACE FUNCTION biblio.escalonamento(
+    A int[],
+    y double precision[]
+) RETURNS double precision[] AS $$
+DECLARE
+    n int := array_length(y,1);
+    v int;
+    k INTEGER;
+    factor DOUBLE PRECISION;
+    x DOUBLE PRECISION[] := ARRAY[]::double precision[];
+    A_ext double precision[];
+    linha double precision[];
+BEGIN
+
+    -- Cria matriz estendida [A | y]
+    v := 0;
+    for i in 1..n loop
+        for j in 1..n loop
+                A_ext := array_append(A_ext, A[(i-1)*n+j]);
+            if j = n then
+                A_ext := array_append(A_ext, y[i]);
+            end if;
+        end loop;
+    end loop;
+
+    -- Escalonamento (eliminação de Gauss)
+    FOR i IN 1..n LOOP
+
+        IF a_ext[(i-1)*(n+1)+i] = 0 THEN
+            RAISE EXCEPTION 'Pivô zero encontrado na linha %, impossível continuar sem pivotamento', i;
+        END IF;
+
+        -- Zerar elementos abaixo do pivô
+        FOR j IN i+1..n LOOP
+            factor := a_ext[(j-1)*(n+1)+i] / a_ext[(i-1)*(n+1)+i];
+            FOR k IN i..n+1 LOOP
+                a_ext[(j-1)*(n+1)+k] := a_ext[(j-1)*(n+1)+k] - factor * a_ext[(i-1)*(n+1)+k];
+            END LOOP;
+        END LOOP;
+    END LOOP;
+
+    -- Substituição regressiva
+    x := array_fill(0.0, ARRAY[n]);
+    FOR i IN REVERSE n..1 LOOP
+        x[i] := a_ext[(i)*(n+1)];
+        FOR j IN i+1..n LOOP
+            x[i] := x[i] - a_ext[(i-1)*(n+1)+j] * x[j];
+        END LOOP;
+        x[i] := x[i] / a_ext[(i-1)*(n+1)+i];
+    END LOOP;
+
+    RETURN x;
+END;
+$$ LANGUAGE plpgsql;
+drop function if exists biblio.prever_entrega;
+create or replace function biblio.prever_entrega(nome_usuario text, num_paginas int, grau_polinomio int) returns double precision as $$
+declare
+    mat int[];
+    y double precision[];
+    x double precision[] = '{}';
+    aux int;
+    res double precision;
+    n int default 0;
+    reg record;
+begin
+
+    -- Percorre todos os livros lidos pelo cliente e adiciona em um vetor
+    -- Ou seja, acha a matriz y
+    for reg in select
+        (emp.data_devolucao - emp.data_retirada + 1) / liv.num_paginas::float as dias
+    from biblio.Cliente as cli 
+        join biblio.Emprestimo as emp on cli.pk = emp.pk_cliente
+        join biblio.Livro as liv on emp.pk_copia_livro = liv.pk
+    where emp.data_devolucao is not null and cli.nome = nome_usuario
+    order by emp.data_retirada desc loop
+        y := array_append(y, reg.dias);
+        n := n + 1;
+        exit when n = grau_polinomio;
+    end loop;
+
+    -- Se a quantidade de elementos for menor do que o necessário pelo polinômio passado dá erro
+    if n < grau_polinomio then
+        raise exception 'Grau do polinômio grande demais para base de dados';
+    end if;
+
+    -- Monta a matriz A
+    for i in 1..grau_polinomio loop
+        for j in 1..grau_polinomio loop
+            mat := array_append(mat, power(i, j-1));
+        end loop;
+    end loop;
+
+    -- Executa o escalonamento
+    x := biblio.escalonamento(mat, y);
+
+    -- Retorna o resultado
+    res := 0;
+    for i in 1..grau_polinomio loop
+        res := res + power(n+1, i-1) * x[i];
+    end loop;
+    res := res * num_paginas;
+
+    if res < 0 then 
+        return 0;
+    else 
+        return res;
+    end if;
+end
+$$ language plpgsql;
+
+select biblio.escalonamento(array[1,2,3,-5], array[5,4]);
+select biblio.prever_entrega('João da Silva', 100, 3);
+select * from biblio.Cliente;
+
+-- Retorna a função com um casting para inteiro
 
 
 ------------------------ Questão nº2 ------------------------
