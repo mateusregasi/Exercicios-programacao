@@ -307,6 +307,7 @@ select * from biblio.Cliente;
 ------------------------ Questão nº2 ------------------------
 ------------------------ Questão nº3 ------------------------
 ------------------------ Questão nº4 ------------------------
+drop function biblio.treinar_regressao_logistica_cliente;
 CREATE OR REPLACE FUNCTION biblio.treinar_regressao_logistica_cliente(
     cliente_id INTEGER,
     genero_destaque TEXT,
@@ -328,6 +329,7 @@ DECLARE
     peso_total DOUBLE PRECISION;
     pred DOUBLE PRECISION;
     error DOUBLE PRECISION;
+    counter INTEGER := 0;
 BEGIN
     SELECT COUNT(*) INTO total_registros
     FROM biblio.Emprestimo e
@@ -335,9 +337,8 @@ BEGIN
     JOIN biblio.Livro l ON c.pk_livro = l.pk
     WHERE e.pk_cliente = cliente_id
       AND e.data_devolucao IS NOT NULL;
-    
+
     beta0 := 0.0;
-    
     beta1 := 0.0;
     IF total_registros = 0 THEN
         RAISE NOTICE 'Nenhum registro encontrado para o cliente %', cliente_id;
@@ -352,18 +353,22 @@ BEGIN
           JOIN biblio.Genero g ON l.pk_genero = g.pk
           WHERE e.pk_cliente = cliente_id
             AND e.data_devolucao IS NOT NULL
-      LOOP
+        LOOP
           peso_genero := CASE WHEN genero_nome = genero_destaque THEN peso_base_genero ELSE 1.0 END;
-  
-          peso_paginas := (LEAST(pag_destaque, x_raw) / GREATEST(pag_destaque, x_raw)) * 0.2 + 0.8;
-  
+          peso_paginas := (LEAST(pag_destaque, x_raw) / GREATEST(pag_destaque, x_raw)) * 0.5 + 0.5;
           peso_total := peso_genero * peso_paginas;
   
           pred := 1.0 / (1.0 + EXP(-(beta0 + beta1 * peso_paginas)));
           error := y - pred;
-  
-          beta0 := beta0 + alpha * peso_genero * error;
-          beta1 := beta1 + alpha * peso_total * error;
+          
+          IF counter > 0 THEN
+            beta0 := (beta0*counter + alpha * peso_genero * error) / counter;
+            beta1 := (beta1*counter + alpha * peso_total * error) / counter;
+          ELSE
+            beta0 := beta0 + alpha * peso_genero * error;
+            beta1 := beta1 + alpha * peso_total * error;
+          END IF;
+          counter := counter +1;
       END LOOP;
     END IF;
 END;
@@ -393,5 +398,7 @@ FROM biblio.treinar_regressao_logistica_cliente(cliente_id, genero_destaque, num
 END;
 $$;
 
+select biblio.prever_entrega_cliente(101, 'Romance', 100);
 
-SELECT biblio.prever_entrega_cliente(1, 'Fantasia', 400);
+select * from biblio.genero;
+select * from biblio.cliente;
