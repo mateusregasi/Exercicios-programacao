@@ -9,7 +9,7 @@
 -- Caio Andrade da Silva Cunha
 -- 
 ------------------------ Banco de dados ------------------------
-drop schema biblio cascade;
+drop schema if exists biblio cascade;
 
 create SCHEMA biblio;
 CREATE TABLE biblio.Autor (

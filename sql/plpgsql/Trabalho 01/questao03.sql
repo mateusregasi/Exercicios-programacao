@@ -10,7 +10,7 @@
 -- A saída deve ser um valor entre 0 e 1 representando a chance 
 -- estimada de atraso.
 
-drop function biblio.treinar_regressao_logistica_cliente;
+drop function if exists biblio.treinar_regressao_logistica_cliente;
 CREATE OR REPLACE FUNCTION biblio.treinar_regressao_logistica_cliente(
     cliente_id INTEGER,
     genero_destaque TEXT,

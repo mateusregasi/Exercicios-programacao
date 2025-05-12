@@ -4,7 +4,7 @@
 -- cópias desses estão sendo emprestadas simultaneamente e 
 -- retornando ordenadamente do maior período ao menor período.
 
-drop function biblio.livros_maiores_janelas_ocupacao;
+drop function if exists biblio.livros_maiores_janelas_ocupacao;
 CREATE OR REPLACE FUNCTION biblio.livros_maiores_janelas_ocupacao(
     percentual NUMERIC  -- ex: 0.8 para 80%
 )
@@ -25,7 +25,7 @@ BEGIN
             COALESCE(e.data_devolucao, CURRENT_DATE + 1) AS data_devolucao
         FROM biblio.Livro l
         JOIN biblio.CopiaLivro cl ON cl.pk_livro = l.pk
-        JOIN biblio.Emprestimo e ON e.pk_copia_livro = cl.pk
+        LEFT JOIN biblio.Emprestimo e ON e.pk_copia_livro = cl.pk
     ),
     total_copias_por_livro AS (
         SELECT pk_livro, MAX(titulo) AS titulo, COUNT(DISTINCT pk_copia_livro) AS total
@@ -88,7 +88,7 @@ BEGIN
         SELECT 
             pk_livro,
             MAX(duracao) AS dias_janela,
-            MAX(emprestadas_atuais) AS copias_utilizadas
+            MIN(emprestadas_atuais) AS copias_utilizadas
         FROM janelas_validas
         GROUP BY pk_livro
     )
