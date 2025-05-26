@@ -1,0 +1,665 @@
+geladeira;eletronico grande porte
+fogão;eletronico grande porte
+maquina de lavar;eletronico grande porte
+ar-condicionado;eletronico grande porte
+televisão 65 polegadas;eletronico grande porte
+computador desktop;eletronico medio porte
+impressora;eletronico medio porte
+videogame;eletronico medio porte
+liquidificador;eletronico medio porte
+batedeira;eletronico medio porte
+secador de cabelo;eletronico medio porte
+ferro de passar;eletronico medio porte
+ventilador;eletronico medio porte
+smartphone;eletronico pequeno porte
+tablet;eletronico pequeno porte
+fone de ouvido;eletronico pequeno porte
+mouse;eletronico pequeno porte
+teclado;eletronico pequeno porte
+calculadora;eletronico pequeno porte
+controle remoto;eletronico pequeno porte
+bateria de notebook;pilhas ou baterias
+bateria de celular;pilhas ou baterias
+pilha AA;pilhas ou baterias
+pilha AAA;pilhas ou baterias
+bateria de carro;pilhas ou baterias
+bateria recarregável;pilhas ou baterias
+garrafa PET;plastico
+embalagem de margarina;plastico
+saco plástico;plastico
+copos descartáveis;plastico
+embalagem de biscoito;plastico
+tubo de PVC;plastico
+cadeira plástica;plastico
+balde;plastico
+lata de refrigerante;metal
+panela de pressão;metal
+arame;metal
+prego;metal
+parafuso;metal
+tampa de metal;metal
+molho de chaves;metal
+cabo de aço;metal
+ferro velho;metal
+casca de laranja;material organico
+restos de vegetais;material organico
+borra de café;material organico
+casca de ovo;material organico
+grama cortada;material organico
+folhas secas;material organico
+madeira podre;material organico
+fruta estragada;material organico
+garrafa de cerveja;vidro
+pote de conserva;vidro
+copo de vidro;vidro
+janela quebrada;vidro
+espelho;vidro
+vaso de vidro;vidro
+lâmpada fluorescente;vidro
+perfume vazio;vidro
+toalha;tecido
+lençol;tecido
+meia;tecido
+tapete;tecido
+cortina;tecido
+roupa velha;tecido
+cobertor;tecido
+almofada;tecido
+sofá;moveis
+cama;moveis
+armário;moveis
+mesa;moveis
+estante;moveis
+guarda-roupa;moveis
+criado-mudo;moveis
+escritório;moveis
+caixa de papelão;papel ou papelao
+jornal;papel ou papelao
+revista;papel ou papelao
+caderno;papel ou papelao
+folha de sulfite;papel ou papelao
+embalagem de ovo;papel ou papelao
+saco de papel;papel ou papelao
+lista telefônica;papel ou papelao
+seringa usada;lixo hospitalar
+gaze;lixo hospitalar
+luvas descartáveis;lixo hospitalar
+medicamento vencido;lixo hospitalar
+agulha;lixo hospitalar
+curativo;lixo hospitalar
+tala;lixo hospitalar
+taco de madeira;madeira
+porta de madeira;madeira
+prancha;madeira
+caibro;madeira
+pallet;madeira
+cerca de madeira;madeira
+fralda descartavel;material nao reciclavel
+cotonete;material nao reciclavel
+esponja de aço;material nao reciclavel
+cerâmica quebrada;material nao reciclavel
+espuma;material nao reciclavel
+isopor;material nao reciclavel
+fita crepe;material nao reciclavel
+papel higiênico usado;material nao reciclavel
+pneu velho;material nao reciclavel
+cabo de panela;material nao reciclavel
+fio elétrico;material nao reciclavel
+CD/DVD;material nao reciclavel
+caneta esferográfica;material nao reciclavel
+clips;material nao reciclavel
+grampo de cabelo;material nao reciclavel
+esponja de cozinha;material nao reciclavel
+notebook;eletronico medio porte
+smartwatch;eletronico pequeno porte
+drone;eletronico medio porte
+projetor;eletronico medio porte
+home theater;eletronico grande porte
+freezer;eletronico grande porte
+aquecedor;eletronico medio porte
+robô aspirador;eletronico medio porte
+câmera fotográfica;eletronico pequeno porte
+radio relógio;eletronico pequeno porte
+carregador portátil;pilhas ou baterias
+bateria de bicicleta elétrica;pilhas ou baterias
+pilha recarregável NiMH;pilhas ou baterias
+bateria de UPS;pilhas ou baterias
+garrafa de água 5L;plastico
+tupperware;plastico
+embalagem de iogurte;plastico
+saco de lixo;plastico
+canudo plástico;plastico
+cotonete com haste plástica;plastico
+tampa de plástico;plastico
+bandeja de frios;plastico
+cadeira de praia;plastico
+balde de tinta;plastico
+lata de atum;metal
+chaleira de aço;metal
+grade de ferro;metal
+gancho de metal;metal
+dobradiça;metal
+fechadura;metal
+talheres;metal
+escada de alumínio;metal
+cesto de metal;metal
+casca de melancia;material organico
+bagaço de cana;material organico
+sementes de frutas;material organico
+pó de café usado;material organico
+casca de batata;material organico
+restos de poda;material organico
+flores murchas;material organico
+palha;material organico
+frascos de remédio;vidro
+vidro de janela;vidro
+aquário quebrado;vidro
+garrafa de vinho;vidro
+pirex;vidro
+lente de óculos;vidro
+vidro temperado;vidro
+pano de prato;tecido
+roupa íntima;tecido
+cachecol;tecido
+edredom;tecido
+colcha;tecido
+fio dental;tecido
+fralda de pano;tecido
+mochila;tecido
+poltrona;moveis
+banqueta;moveis
+rack de TV;moveis
+cômoda;moveis
+aparador;moveis
+painel de parede;moveis
+cadeira de escritório;moveis
+gaveteiro;moveis
+folha de caderno;papel ou papelao
+post-it;papel ou papelao
+convite de casamento;papel ou papelao
+livro didático;papel ou papelao
+papel de presente;papel ou papelao
+embalagem de pizza;papel ou papelao
+papelão ondulado;papel ou papelao
+formulário impresso;papel ou papelao
+máscara cirúrgica;lixo hospitalar
+cateter;lixo hospitalar
+soro fisiológico vencido;lixo hospitalar
+gaze com sangue;lixo hospitalar
+frasco de soro;lixo hospitalar
+cinta cirúrgica;lixo hospitalar
+touca descartável;lixo hospitalar
+tábua de corte;madeira
+cavalete;madeira
+assoalho;madeira
+viga de madeira;madeira
+caixote;madeira
+moldura;madeira
+dormente de trem;madeira
+escova de dentes;material nao reciclavel
+lâmina de barbear;material nao reciclavel
+absorvente higiênico;material nao reciclavel
+papel carbono;material nao reciclavel
+adesivo;material nao reciclavel
+fita cassete;material nao reciclavel
+disquete;material nao reciclavel
+embalagem de salgadinho;material nao reciclavel
+pincel de maquiagem;material nao reciclavel
+cabo de vassoura;material nao reciclavel
+cartucho de impressora;eletronico pequeno porte
+filtro de água;plastico
+chapa de zinco;metal
+osso de frango;material organico
+lâmpada queimada;vidro
+meia-calça;tecido
+cadeira de balanço;moveis
+papel de seda;papel ou papelao
+seringa sem agulha;lixo hospitalar
+poste de madeira;madeira
+copo de plástico rachado;material nao reciclavel
+tijolo;material nao reciclavel
+cimento;material nao reciclavel
+telha cerâmica;material nao reciclavel
+fio elétrico descascado;metal
+tinta acrílica;material nao reciclavel
+entulho;material nao reciclavel
+lona preta;plastico
+ferragem;metal
+óleo de cozinha usado;material organico
+cera de vela;material nao reciclavel
+fita magnética;material nao reciclavel
+plástico bolha;plastico
+ímã;metal
+vela aromática;material nao reciclavel
+terra de vaso;material organico
+fio de nylon;plastico
+capa de chuva;plastico
+pneu furado;material nao reciclavel
+óculos quebrado;material nao reciclavel
+cortador de grama;eletronico medio porte
+bengala;madeira
+corda;tecido
+pincel;material nao reciclavel
+vaso sanitário;material nao reciclavel
+lousa;vidro
+pia de aço;metal
+tapete de yoga;plastico
+luvas de borracha;plastico
+pé de mesa;metal
+ventilador de teto;eletronico medio porte
+quadro;madeira
+termômetro de mercúrio;lixo hospitalar
+pistola de cola quente;eletronico pequeno porte
+pá de lixo;metal
+escova de cabelo;plastico
+grampeador;metal
+chaveiro;metal
+pulseira;metal
+anel;metal
+brinco;metal
+colar;metal
+relógio de pulso;eletronico pequeno porte
+óculos de sol;material nao reciclavel
+bolsa;tecido
+carteira;tecido
+cinto;tecido
+chapéu;tecido
+boné;tecido
+lenço;tecido
+luvas de frio;tecido
+meia arrastão;tecido
+sutiã;tecido
+cueca;tecido
+bermuda;tecido
+vestido;tecido
+saia;tecido
+blusa;tecido
+camisa;tecido
+jaqueta;tecido
+casaco;tecido
+blazer;tecido
+terno;tecido
+gravata;tecido
+echarpe;tecido
+cinto de segurança;material nao reciclavel
+airbag;material nao reciclavel
+para-brisa;vidro
+retrovisor;material nao reciclavel
+pneu sobressalente;material nao reciclavel
+bateria de caminhão;pilhas ou baterias
+óleo de motor;material nao reciclavel
+filtro de óleo;material nao reciclavel
+pastilha de freio;material nao reciclavel
+radiador;metal
+carcaça de ventilador;plastico
+ventoinha;plastico
+suporte de TV;metal
+base de monitor;metal
+carregador de celular;eletronico pequeno porte
+fonte de PC;eletronico medio porte
+cabo HDMI;eletronico pequeno porte
+adaptador USB;eletronico pequeno porte
+mousepad;plastico
+suporte de notebook;metal
+almofada térmica;tecido
+garrafa térmica;metal
+lunch box;plastico
+pote de vidro com tampa;vidro
+porta-retrato;madeira
+estátua;material nao reciclavel
+enfeite de natal;plastico
+vela decorativa;material nao reciclavel
+quadro negro;madeira
+giz;material nao reciclavel
+apagador;material nao reciclavel
+livro antigo;papel ou papelao
+revista velha;papel ou papelao
+álbum de fotos;papel ou papelao
+diário;papel ou papelao
+caderno de anotações;papel ou papelao
+agenda;papel ou papelao
+bloco de desenho;papel ou papelao
+papel kraft;papel ou papelao
+cartolina;papel ou papelao
+eva;plastico
+feltro;tecido
+linha de costura;tecido
+agulha de costura;metal
+dedal;metal
+tesoura;metal
+alfinete;metal
+botão;plastico
+ziper;metal
+elástico;material nao reciclavel
+cola branca;material nao reciclavel
+tinta a óleo;material nao reciclavel
+pincel de pintura;material nao reciclavel
+rolo de pintura;material nao reciclavel
+lixa;material nao reciclavel
+fita métrica;material nao reciclavel
+martelo;metal
+chave de fenda;metal
+alicate;metal
+serra;metal
+broca;metal
+parafusadeira;eletronico medio porte
+furadeira;eletronico medio porte
+lixadeira;eletronico medio porte
+compressor;eletronico grande porte
+betoneira;eletronico grande porte
+serra elétrica;eletronico medio porte
+torno;eletronico grande porte
+solda;metal
+ferro de solda;eletronico pequeno porte
+óculos de proteção;plastico
+capacete;plastico
+luvas de proteção;tecido
+jaleco;tecido
+máscara de gás;material nao reciclavel
+bota de segurança;material nao reciclavel
+cinto de utilidades;material nao reciclavel
+extintor de incêndio;metal
+sirene;eletronico medio porte
+alarme;eletronico pequeno porte
+câmera de segurança;eletronico medio porte
+fechadura eletrônica;eletronico pequeno porte
+interfone;eletronico pequeno porte
+campainha;eletronico pequeno porte
+luminária;eletronico medio porte
+abajur;eletronico medio porte
+lustre;eletronico medio porte
+ventilador de mesa;eletronico medio porte
+aquecedor a óleo;eletronico medio porte
+umidificador;eletronico medio porte
+purificador de ar;eletronico medio porte
+aspirador de pó;eletronico medio porte
+lavadora de alta pressão;eletronico medio porte
+cortador de grama;eletronico medio porte
+roçadeira;eletronico medio porte
+motocultivador;eletronico grande porte
+gerador;eletronico grande porte
+transformador;eletronico grande porte
+no-break;eletronico medio porte
+estabilizador;eletronico medio porte
+painel solar;eletronico grande porte
+bateria solar;pilhas ou baterias
+inversor;eletronico medio porte
+controlador de carga;eletronico pequeno porte
+módulo fotovoltaico;eletronico grande porte
+cabo solar;metal
+conector MC4;metal
+estrutura de fixação;metal
+caixa de junção;plastico
+string box;plastico
+medidor de energia;eletronico medio porte
+disjuntor;metal
+quadro de distribuição;metal
+tomada;metal
+interruptor;metal
+dimmer;eletronico pequeno porte
+sensor de presença;eletronico pequeno porte
+lâmpada LED;eletronico pequeno porte
+lâmpada incandescente;eletronico pequeno porte
+lâmpada halógena;eletronico pequeno porte
+reator;eletronico pequeno porte
+starter;eletronico pequeno porte
+plafon;plastico
+arandela;plastico
+pendente;plastico
+spot;plastico
+holofote;plastico
+projetor;eletronico medio porte
+notebook gaming;eletronico medio porte
+ultrabook;eletronico medio porte
+servidor rack;eletronico grande porte
+nobreak industrial;eletronico grande porte
+switch de rede 48 portas;eletronico medio porte
+roteador empresarial;eletronico medio porte
+console de videogame;eletronico medio porte
+drone profissional;eletronico medio porte
+câmera DSLR;eletronico medio porte
+filmadora 4K;eletronico medio porte
+projetor laser;eletronico medio porte
+smartphone flagship;eletronico pequeno porte
+tablet gráfico;eletronico pequeno porte
+smartwatch esportivo;eletronico pequeno porte
+fone de ouvido sem fio;eletronico pequeno porte
+mouse gamer;eletronico pequeno porte
+teclado mecânico;eletronico pequeno porte
+hub USB;eletronico pequeno porte
+carregador wireless;eletronico pequeno porte
+power bank;eletronico pequeno porte
+monitor 32 polegadas;eletronico medio porte
+monitor curvado;eletronico medio porte
+all-in-one;eletronico medio porte
+GPU RTX 4090;eletronico medio porte
+placa-mãe ATX;eletronico medio porte
+fonte modular;eletronico medio porte
+water cooler;eletronico medio porte
+SSD NVMe;eletronico pequeno porte
+memória RAM DDR5;eletronico pequeno porte
+processador;eletronico pequeno porte
+placa de vídeo externa;eletronico medio porte
+dock station;eletronico medio porte
+scanner A3;eletronico medio porte
+impressora 3D;eletronico medio porte
+plotter;eletronico grande porte
+mesa digitalizadora;eletronico medio porte
+leitor de código de barras;eletronico pequeno porte
+calculadora científica;eletronico pequeno porte
+robô educacional;eletronico medio porte
+kit de Arduino;eletronico pequeno porte
+Raspberry Pi;eletronico pequeno porte
+sensor IoT;eletronico pequeno porte
+módulo Wi-Fi;eletronico pequeno porte
+câmera de segurança IP;eletronico pequeno porte
+fechadura biométrica;eletronico pequeno porte
+assistente virtual;eletronico pequeno porte
+smart speaker;eletronico pequeno porte
+relógio inteligente;eletronico pequeno porte
+fone de tradução;eletronico pequeno porte
+óculos VR;eletronico medio porte
+luvas de realidade virtual;eletronico medio porte
+tracker de movimento;eletronico pequeno porte
+controlador MIDI;eletronico pequeno porte
+sintetizador;eletronico medio porte
+amplificador de guitarra;eletronico medio porte
+interface de áudio;eletronico medio porte
+microfone condensador;eletronico pequeno porte
+mesa de som;eletronico medio porte
+caixa de som Bluetooth;eletronico pequeno porte
+subwoofer;eletronico medio porte
+soundbar;eletronico medio porte
+fone de estúdio;eletronico pequeno porte
+karaokê portátil;eletronico pequeno porte
+leitor de Blu-ray;eletronico medio porte
+TV box;eletronico pequeno porte
+antena parabólica;eletronico medio porte
+receptor satelital;eletronico medio porte
+decodificador;eletronico pequeno porte
+cabo HDMI 8K;eletronico pequeno porte
+conversor de sinal;eletronico pequeno porte
+adaptador Thunderbolt;eletronico pequeno porte
+docking station;eletronico medio porte
+carregador USB-C 100W;eletronico pequeno porte
+fonte chaveada;eletronico pequeno porte
+transformador step-down;eletronico medio porte
+inversor solar;eletronico medio porte
+controlador de carga;eletronico pequeno porte
+medidor de energia;eletronico pequeno porte
+estabilizador de tensão;eletronico medio porte
+disjuntor inteligente;eletronico pequeno porte
+lâmpada smart;eletronico pequeno porte
+cortina automatizada;eletronico medio porte
+fechadura eletrônica;eletronico pequeno porte
+termômetro digital;eletronico pequeno porte
+balança inteligente;eletronico pequeno porte
+purificador de ar smart;eletronico medio porte
+robô aspirador;eletronico medio porte
+máquina de café programável;eletronico medio porte
+airfryer digital;eletronico medio porte
+liquidificador inteligente;eletronico medio porte
+batedeira planetária;eletronico medio porte
+ferro de passar smart;eletronico medio porte
+ventilador inteligente;eletronico medio porte
+aquecedor programável;eletronico medio porte
+umidificador ultrassônico;eletronico medio porte
+secador de cabelo iônico;eletronico medio porte
+escova elétrica;eletronico pequeno porte
+aparelho de barbear;eletronico pequeno porte
+cortador de cabelo;eletronico pequeno porte
+aparelho de pressão;eletronico pequeno porte
+oxímetro;eletronico pequeno porte
+injetor de insulina;eletronico pequeno porte
+marcapasso;eletronico pequeno porte
+desfibrilador;eletronico medio porte
+monitor cardíaco;eletronico medio porte
+bomba infusora;eletronico pequeno porte
+endoscópio digital;eletronico medio porte
+ultrassom portátil;eletronico medio porte
+microscópio digital;eletronico medio porte
+estetoscópio eletrônico;eletronico pequeno porte
+termômetro infravermelho;eletronico pequeno porte
+lupa eletrônica;eletronico pequeno porte
+scanner corporal;eletronico medio porte
+balança industrial;eletronico medio porte
+medidor de pH digital;eletronico pequeno porte
+turbidímetro;eletronico pequeno porte
+dosímetro;eletronico pequeno porte
+spectrômetro;eletronico medio porte
+osciloscópio;eletronico medio porte
+multímetro digital;eletronico pequeno porte
+gerador de funções;eletronico medio porte
+fonte de alimentação;eletronico medio porte
+analisador lógico;eletronico medio porte
+freqüencímetro;eletronico pequeno porte
+capacímetro;eletronico pequeno porte
+indutímetro;eletronico pequeno porte
+megômetro;eletronico pequeno porte
+termômetro de solda;eletronico pequeno porte
+estação de solda;eletronico medio porte
+osciloscópio portátil;eletronico medio porte
+analisador de espectro;eletronico medio porte
+detector de metais;eletronico medio porte
+scanner 3D;eletronico medio porte
+impressora térmica;eletronico pequeno porte
+terminal POS;eletronico medio porte
+leitor biométrico;eletronico pequeno porte
+catraca eletrônica;eletronico medio porte
+sensor de estacionamento;eletronico pequeno porte
+alarme de proximidade;eletronico pequeno porte
+trava eletrônica;eletronico pequeno porte
+GPS portátil;eletronico pequeno porte
+radioamador;eletronico medio porte
+transceptor;eletronico medio porte
+repetidor de sinal;eletronico medio porte
+antena Yagi;eletronico medio porte
+modem 5G;eletronico pequeno porte
+roteador mesh;eletronico medio porte
+access point;eletronico medio porte
+firewall;eletronico medio porte
+NAS;eletronico medio porte
+DVR;eletronico medio porte
+NVR;eletronico medio porte
+switch PoE;eletronico medio porte
+cabo de fibra óptica;eletronico pequeno porte
+conector LC;eletronico pequeno porte
+fusor de fibra;eletronico medio porte
+testador de rede;eletronico pequeno porte
+certificador de cabos;eletronico medio porte
+analisador de protocolo;eletronico medio porte
+gerador de tráfego;eletronico medio porte
+simulador de carga;eletronico medio porte
+injetor de pacotes;eletronico medio porte
+fralda descartável usada;material nao reciclavel
+absorvente higiênico usado;material nao reciclavel
+cotonete com resíduos orgânicos;material nao reciclavel
+papel higiênico usado;material nao reciclavel
+lenço umedecido usado;material nao reciclavel
+máscara descartável usada;material nao reciclavel
+luvas de látex contaminadas;material nao reciclavel
+gaze com sangue ou secreções;material nao reciclavel
+seringa com agulha (mesmo sem uso);material nao reciclavel
+curativo usado;material nao reciclavel
+cateter usado;material nao reciclavel
+bolsa de soro usada;material nao reciclavel
+filtro de cigarro;material nao reciclavel
+bituca de cigarro;material nao reciclavel
+esponja de cozinha usada;material nao reciclavel
+pano de limpeza contaminado;material nao reciclavel
+cerâmica quebrada (pratos, xícaras);material nao reciclavel
+espelho quebrado;material nao reciclavel
+lâmpada incandescente queimada;material nao reciclavel
+lâmpada halógena quebrada;material nao reciclavel
+vidro temperado de janela quebrado;material nao reciclavel
+cristal (copos, taças);material nao reciclavel
+adesivo (etiquetas, fitas colantes);material nao reciclavel
+fita crepe usada;material nao reciclavel
+fita adesiva;material nao reciclavel
+papel carbono;material nao reciclavel
+papel plastificado (embalagens de salgadinho);material nao reciclavel
+papel parafinado (embalagens de fast food);material nao reciclavel
+fotografias;material nao reciclavel
+papel sanitário (toalha de papel engordurada);material nao reciclavel
+isopor (embalagens de comida);material nao reciclavel
+espuma de colchão;material nao reciclavel
+espuma de travesseiro;material nao reciclavel
+acrílico quebrado;material nao reciclavel
+borracha de pneu velho;material nao reciclavel
+cabo de panela derretido;material nao reciclavel
+tampa de panela com revestimento antiaderente;material nao reciclavel
+tinta spray vazia;material nao reciclavel
+pincel de tinta seco;material nao reciclavel
+rolo de pintura usado;material nao reciclavel
+lixa usada;material nao reciclavel
+fita VHS ou cassete;material nao reciclavel
+CD/DVD arranhado;material nao reciclavel
+disquete;material nao reciclavel
+cartucho de tinta vazio;material nao reciclavel
+toner de impressora usado;material nao reciclavel
+plástico termofixo (baquelite);material nao reciclavel
+plástico com resíduos químicos;material nao reciclavel
+embalagem de produto tóxico (inseticida);material nao reciclavel
+pneu furado;material nao reciclavel
+câmara de ar de pneu;material nao reciclavel
+couro sintético rasgado;material nao reciclavel
+tecido com tinta ou produtos químicos;material nao reciclavel
+carpete sujo;material nao reciclavel
+manta térmica de forno;material nao reciclavel
+cimento seco;material nao reciclavel
+gesso quebrado;material nao reciclavel
+tijolo refratário usado;material nao reciclavel
+argamassa ressecada;material nao reciclavel
+tinta látex seca;material nao reciclavel
+tinta a óleo seca;material nao reciclavel
+solvente contaminado;material nao reciclavel
+óleo de motor usado;material nao reciclavel
+filtro de óleo de carro;material nao reciclavel
+pano contaminado com óleo;material nao reciclavel
+resíduo de solda;material nao reciclavel
+lã de vidro;material nao reciclavel
+fibra de vidro;material nao reciclavel
+amianto;material nao reciclavel
+terra contaminada;material nao reciclavel
+entulho de construção (com gesso/tinta);material nao reciclavel
+madeira tratada com produtos químicos;material nao reciclavel
+poste de madeira podre;material nao reciclavel
+móvel com infestação de cupim;material nao reciclavel
+cola epóxi seca;material nao reciclavel
+silicona seca;material nao reciclavel
+resina de fibra de vidro;material nao reciclavel
+plástico bolha rasgado;material nao reciclavel
+embalagem metalizada (salgadinhos);material nao reciclavel
+caneta esferográfica vazia;material nao reciclavel
+grampo de cabelo quebrado;material nao reciclavel
+clipe de papel;material nao reciclavel
+elástico velho;material nao reciclavel
+vela derretida;material nao reciclavel
+cera de ouvido (em cotonetes);material nao reciclavel
+cabelo humano (em escovas);material nao reciclavel
+unha postiça;material nao reciclavel
+pó de brita;material nao reciclavel
+pó de drywall;material nao reciclavel
+gesso de parede;material nao reciclavel
+argila de modelar seca;material nao reciclavel
+massa corrida seca;material nao reciclavel
