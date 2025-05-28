@@ -12,7 +12,7 @@ with open('data.csv') as arquivo:
         categorias_treino.append(line[1])
 
 # 2. Bag of Words (BoW)
-vectorizer = CountVectorizer()
+vectorizer = CountVectorizer(lowercase=True, strip_accents='ascii')
 X = vectorizer.fit_transform(palavras_treino)
 
 # 3. Treinamento com Naive Bayes
@@ -28,15 +28,17 @@ def classificar_material(palavra):
 materiais = [ 
     "corpo humano",
     "Mochila pequena velha (pochete)",
-    "Cartão de crédito",
-    "Mousepad",
+    "Cartão de crédito",
+    "mousepad",
     "Óculos de sol",
     "Chapa elétrica de pão",
     "Cadeira de escritório",
     "Impressora",
     "Aspirador de pó",
-    "⁠Máquina de fazer café",
-    "Liquidificador"
+    "Máquina de fazer café",
+    "Liquidificador",
+    'notebook',
+    'celular'
 ]
 for palavra in materiais:
-    print(palavra, classificar_material(palavra))
+    print(palavra.lower(), classificar_material(palavra))

@@ -2,6 +2,7 @@ import fasttext, csv
 
 # Carregar o modelo pré-treinado
 modelo = fasttext.load_model('cc.pt.300.bin')
+# modelo = fasttext.train_supervised('cbow_s50.txt')
 
 categorias = dict()
 with open('data.csv') as arquivo:
@@ -45,7 +46,7 @@ def classificar_palavra(palavra):
                 mais_similar = similaridade
                 maior_categoria = categoria
                 maior_palavra = p
-    print(f'A palavra mais similar para {palavra} foi a palvra {maior_palavra} da categoria {maior_categoria}.')
+    print(f'A palavra mais similar para {palavra} foi a palvra {maior_palavra} da categoria {maior_categoria} com similaridade {similaridade}.')
     return maior_categoria
 
 materiais = [ 
