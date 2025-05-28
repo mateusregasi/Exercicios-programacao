@@ -74,7 +74,6 @@ CREATE TABLE biblio.AgendamentoMovimentacao (
     data_saida DATE,
     data_entrega DATE,
     data_prevista DATE,
-    entregue BOOLEAN DEFAULT FALSE,
     constraint pk_agendamento_movimentacao PRIMARY KEY(pk),
     constraint fk_origem FOREIGN KEY(pk_origem) REFERENCES biblio.Biblioteca(pk),
     constraint fk_destino FOREIGN KEY(pk_destino) REFERENCES biblio.Biblioteca(pk)
@@ -144,9 +143,9 @@ INSERT INTO biblio.Emprestimo (pk_cliente, pk_copia_livro, data_retirada, data_p
 (3, 3, '2025-04-25', '2025-05-09', '2025-05-08');
 
 -- Inserir Agendamento de Movimentações
-INSERT INTO biblio.AgendamentoMovimentacao (pk_origem, pk_destino, data_saida, data_prevista, data_entrega, entregue) VALUES 
-(1, 2, '2025-05-01', '2025-05-03', '2025-05-02', TRUE),
-(3, 1, '2025-05-05', '2025-05-08', NULL, FALSE);
+INSERT INTO biblio.AgendamentoMovimentacao (pk_origem, pk_destino, data_saida, data_prevista, data_entrega) VALUES 
+(1, 2, '2025-05-01', '2025-05-03', '2025-05-02'),
+(3, 1, '2025-05-05', '2025-05-08', NULL);
 
 -- Inserir Cópias nas Movimentações
 INSERT INTO biblio.CopiaMovimentacao (pk_copia_livro, pk_movimentacao) VALUES 
