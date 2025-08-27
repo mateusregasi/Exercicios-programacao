@@ -2,33 +2,16 @@ from ollama import chat
 from pydantic import BaseModel
 from typing import Literal
 
-modelo = 'qwen3:14b'
-materiais = ['celular', 'notebook', 'telefone', 'corpo humano']
+modelo = 'gemma3n:e4b'
+materiais = {'celular':'eletronico pequeno porte', 'notebook':'eletronico medio porte', 'telefone':'eletronico medio porte', 'pilha':'eletronico pequeno porte'}
 
- # Pega os tipos de material e coloca em uma classe
-tipos_material = (
-    'eletronico grande porte',
-    'eletronico medio porte',
-    'eletronico pequeno porte',
-    'pilhas ou baterias',
-    'plastico',
-    'metal',
-    'material organico',
-    'vidro',
-    'tecido',
-    'moveis',
-    'papel ou papelao',
-    'lixo hospitalar',
-    'madeira',
-    'material nao reciclavel'
-)
+class MaterialPrompt(BaseModel):
+    descarte: list[str]
+    reciclagem: list[str]
 
-class PropriedadesTipoMaterial(BaseModel):
-    tipo: Literal[tipos_material]
+for k, v in materiais.items():
 
-for material in materiais:
-
-    pergunta = f"Classifique o material {material} com algum dos tipos: {', '.join(tipos_material)}. A classificação deve ser feita levando em consideração as características do material. A resposta deve ser dada em formato JSON com a propriedade 'tipo'."
+    pergunta = f"Me dê maneiras adequadas de se descartar o material {k} levando em consideração que ele é um {v}. Quero também ideias criativas de se fazer reciclagem com esse material. Retorne em um arquivo JSON com as propriedades 'descarte' e 'reciclagem'."
     print(pergunta)
 
     mensagem = [{
@@ -36,7 +19,7 @@ for material in materiais:
         'content': pergunta,
     }]
 
-    prompt = chat(model=modelo, messages=mensagem, format=PropriedadesTipoMaterial.model_json_schema(), options={
+    prompt = chat(model=modelo, messages=mensagem, format=MaterialPrompt.model_json_schema(), options={
         'temperature':1
     })['message']['content']
     print(prompt)

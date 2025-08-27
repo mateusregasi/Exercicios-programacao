@@ -1,0 +1,24 @@
+1. What are the types of the following expressions?
+
+- False
+:: Bool
+
+- (["foo", "bar"], 'a')
+:: ([[Char]], Char)
+
+- [(True, []), (False, [['a']])]
+[(Bool, [[Char]])]
+
+
+
+1.Haskell provides a standard function, last :: [a] -> a, that returns the last element of a list. From reading the type alone, what are the possible valid behaviours (omitting crashes and infinite loops) that this function could have? What are a few things that this function clearly cannot do?
+Ela pega uma lista de elementos e retorna o último elemento, independente do tipo. Ela claramente não lida bem com listas vazias, nem com listas infinitas.
+
+2.Write a function lastButOne, that returns the element before the last.
+lastButOne l = if length l > 2 
+		then lastButOne (tail l)
+		else head l
+
+
+3.Load your lastButOne function into ghci, and try it out on lists of different lengths. What happens when you pass it a list that's too short?
+Se tiver um elemento, ela pega o último elemento. Se tiver nenhum elemento dá erro.

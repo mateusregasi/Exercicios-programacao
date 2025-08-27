@@ -5,7 +5,7 @@ import csv
 # 1. Dados de treino: palavras com suas classes
 palavras_treino = []
 categorias_treino = [] 
-with open('data.csv') as arquivo:
+with open('data/data.csv') as arquivo:
     reader = csv.reader(arquivo, delimiter=';')
     for line in reader:
         palavras_treino.append(line[0])
@@ -38,7 +38,10 @@ materiais = [
     "Máquina de fazer café",
     "Liquidificador",
     'notebook',
-    'celular'
+    'celular',
+    'copo'
 ]
 for palavra in materiais:
-    print(palavra.lower(), classificar_material(palavra))
+    print(f'{palavra.lower()} é classificado como {classificar_material(palavra)}')
+
+print(len(vectorizer.get_feature_names_out()))

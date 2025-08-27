@@ -1,0 +1,30 @@
+1. Write the converse of fromList for the List type: a function that takes a List a and generates a [a].
+
+data Lista tipo = Lista tipo (Lista tipo) | Nada deriving (Show)
+list2Lista (Lista cabeca Nada) = cabeca:[]
+list2Lista (Lista cabeca cauda) = cabeca:(list2Lista cauda)
+
+main :: IO ()
+main = do
+  print(list2Lista (Lista 1 (Lista 2 (Lista 3 (Lista 4 Nada)))))
+
+2.Define a tree type that has only one constructor, like our Java example. Instead of the Empty constructor, use the Maybe type to refer to a node's children. 
+
+-- Sem o Mayble
+data Arv tipo = Arv tipo (Arv tipo) (Arv tipo) | Folha deriving (Show)
+a = Arv 1 (Arv 2 Folha Folha) (Arv 3 Folha Folha)
+
+main :: IO ()
+main = do
+  print a
+
+-- Com o Mayble
+
+data Talvez tipo = Talvez tipo | Nada deriving (Show)
+data Arv tipo = Arv (Talvez tipo) (Talvez (Arv tipo)) (Talvez (Arv tipo)) deriving (Show)
+a :: Arv Int
+a = Arv (Talvez 1) Nada Nada
+
+main :: IO ()
+main = do
+    print (a)

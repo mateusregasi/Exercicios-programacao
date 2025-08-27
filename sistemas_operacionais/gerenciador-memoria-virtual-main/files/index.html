@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulador de Memória Virtual</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="container">
+    <h1>Simulador de Memória Virtual</h1>
+    <form id="configForm">
+
+        <label for="pageSize">Tamanho da Página:</label>
+        <div>
+            <input type="text" name="PAGE_SIZE" placeholder="16" value="16">
+            <select id="pageSize" name="PAGE_SIZE_DIM">
+                <option value="B">byte</option>
+                <option value="KB">kilobyte</option>
+                <option value="MB">megabyte</option>
+            </select>
+        </div>
+
+        <label for="mpSize">Tamanho da Memória Principal:</label>
+        <div>
+            <input type="text" name="MP_SIZE" placeholder="24" value="24">
+            <select id="mpSize" name="MP_SIZE_DIM">
+                <option value="B">byte</option>
+                <option value="KB" selected>kilobyte</option>
+                <option value="MB">megabyte</option>
+            </select>
+        </div>
+
+        <label for="msSize">Tamanho da Memória Secundária:</label>
+        <div>
+            <input type="text" name="MS_SIZE" placeholder="48" value="48">
+            <select id="msSize" name="MS_SIZE_DIM">
+                <option value="B">byte</option>
+                <option value="KB" selected>kilobyte</option>
+                <option value="MB">megabyte</option>
+            </select>
+        </div>
+
+        <label for="BITS_LOGICAL_ADDRESS">Bits de Endereço Lógico:</label>
+        <input type="text" name="BITS_LOGICAL_ADDRESS" id="BITS_LOGICAL_ADDRESS" value="20">
+
+        <label for="TLB_SIZE">Linhas da TLB:</label>
+        <input type="text" name="TLB_SIZE" id="TLB_SIZE" value="16">
+
+        <label for="SUB_POLICY_TYPE">Política de Substituição:</label>
+        <select id="SUB_POLICY_TYPE" name="policy">
+            <option value="LRU" selected>LRU</option>
+            <option value="relogio">Relógio</option>
+        </select>
+
+        <button type="submit">Iniciar Simulação</button>
+    </form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
