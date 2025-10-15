@@ -1,0 +1,1 @@
+enum dif {facil, medio, dificil}

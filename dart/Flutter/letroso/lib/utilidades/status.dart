@@ -1,0 +1,1 @@
+enum Status {errou, letra, posicao}
