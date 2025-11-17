@@ -23,26 +23,26 @@ VALUES (1, 'The Quack Bats'),
        (14, 'The Rough Robins'),
        (15, 'The Silver Crocs');
 
-select
-    team
-from 
-    ((   
-        select
-            ('Podium: ' || team) as team,
-            position
-        from
-            league
-        order by position asc
-        limit 3
-    ) union (
-        select
-            ('Demoted: ' || team) as team,
-            (select max(position) from league) - position + 4
+(
+    select 
+        concat("Podium: ", team) as team
+    from
+        league
+    order by position
+    limit 3
+)
+union
+(
+    select 
+        team
+    from
+        (select
+            position,
+            concat("Demoted: ", team) as team
         from
             league
         order by position desc
-        limit 2
-    ))
-order by position;
-
-  DROP TABLE league; --
+        limit 2) as a
+    order by position
+);
+DROP TABLE league;

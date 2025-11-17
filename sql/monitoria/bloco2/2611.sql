@@ -1,9 +1,32 @@
 -- https://judge.beecrowd.com/pt/problems/view/2611
 
--- Foi aplicado uma função de projeção sobre uma seleção utilizando seleções aninhadas.
--- Foi selecionado os ids dos gêneros na tabela genres quais a descrição iniciava com 'Action'.
--- Foi selecionado os filmes da tabela movies quais tinham id_genre dentro dos gêneros achados na seleção anterior.
--- Dado esse resultado, foram projetados id e name.
+CREATE TABLE genres (
+  id numeric PRIMARY KEY,
+  description varchar(50)
+);
+
+CREATE TABLE movies (
+  id numeric PRIMARY KEY,
+  name varchar(50),
+  id_genres numeric REFERENCES genres (id)
+);
+
+INSERT INTO genres (id, description)
+VALUES
+  (1,	'Animation'),
+  (2,	'Horror'),
+  (3,	'Action'),
+  (4,	'Drama'),
+  (5,	'Comedy');
+
+INSERT INTO movies (id, name, id_genres)
+VALUES
+  (1,	'Batman',	3),
+  (2,	'The Battle of the Dark River',	3),
+  (3,	'White Duck',	1),
+  (4,	'Breaking Barriers',	4),
+  (5,	'The Two Hours',	2);
+
 
 select 
     id, name
@@ -12,3 +35,5 @@ where id_genres in (select
                         id 
                     from genres 
                     where description like 'Action');
+
+DROP TABLE movies, genres;

@@ -2,13 +2,13 @@
 
 create table candidate(
   id INTEGER PRIMARY KEY,
-  name VARCHAR (255)
+  name VARCHAR(255)
 );
 
 create table score(
   candidate_id INTEGER,
   math NUMERIC,
-  specific NUMERIC,
+  _specific NUMERIC,
   project_plan NUMERIC,
   FOREIGN KEY(candidate_id) REFERENCES candidate (id)
 );
@@ -27,7 +27,7 @@ VALUES
        (9, 'Donna D Pursley'),
        (10, 'Ann C Davis');
 
-INSERT INTO score(candidate_id, math, specific, project_plan)
+INSERT INTO score(candidate_id, math, _specific, project_plan)
 VALUES 
 	   (1, 76, 58, 21),
        (2, 4, 5, 22),
@@ -43,7 +43,7 @@ VALUES
   
 select 
     c.name as name,
-    round((s.math * 2 + s.specific * 3 + s.project_plan * 5)/10, 2) as avg
+    round((s.math * 2 + s._specific * 3 + s.project_plan * 5)/10, 2) as avg
 from
     candidate as c join score as s
         on (c.id = s.candidate_id);

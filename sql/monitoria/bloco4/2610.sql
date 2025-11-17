@@ -1,10 +1,23 @@
 -- https://judge.beecrowd.com/pt/problems/view/2610
 
--- Foi feito uma projeção sobre produtos levando em consideração função de arredondamento sobre uma função de agregação.
--- Selecionou-se a média dos preços dos produtos (note que não foi considerada a média ponderada, ou seja, não foi considerado cada produto individual mas a média dos preços nos tipos de produto).
--- Sobre a média foi aplicada uma função de arredondamento, que permitiu 2 casas decimais depois da vírgula.
--- Além disso, foi utilizado apelido na única coluna da tabela.
+CREATE TABLE products (
+    id NUMERIC PRIMARY KEY,
+    name VARCHAR(255),
+    amount NUMERIC,
+    price NUMERIC
+);
+
+INSERT INTO products (id, name, amount, price)
+VALUES
+    (1, 'Two-doors wardrobe', 100, 800),
+    (2, 'Dining table', 1000, 560),
+    (3, 'Towel holder', 10000, 25.50),
+    (4, 'Computer desk', 350, 320.50),
+    (5, 'Chair', 3000, 210.64),
+    (6, 'Single bed', 750, 460);
 
 select
-    round(avg(price),2) as price
+    avg(amount) as price
 from products;
+
+DROP TABLE products;

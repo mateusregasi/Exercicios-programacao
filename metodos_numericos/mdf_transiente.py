@@ -7,11 +7,11 @@ colors = [(7, 7, 7), (31, 7, 7), (47, 15, 7), (71, 15, 7), (87, 23, 7), (103, 31
 n_colors = len(colors)
 
 # Variáveis
-k = 1
+k = 100
 Tt0 = 0
-Tx0 = 75
-Ty0 = 0
-TLx = 50
+Tx0 = 100
+Ty0 = 100
+TLx = 100
 TLy = 100
 Lx = Ly = 100
 dx = dy = 1
