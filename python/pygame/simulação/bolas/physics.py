@@ -25,8 +25,5 @@ class Physics:
         self.vy = 0
 
     def _apply_force2shape(self):
-        print(self.shape.x, self.shape.y)
         self.shape.x += self.vx
         self.shape.y += self.vy
-        print(self.shape.x, self.shape.y)
-        print()

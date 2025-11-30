@@ -1,0 +1,15 @@
+transformers
+jupyter
+pandas
+torch 
+protobuf
+tokenizers
+scikit-learn
+setuptools 
+wheel
+accelerate
+peft
+datasets
+bitsandbytes
+trl
+flash-attn

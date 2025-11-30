@@ -1,0 +1,14 @@
+transformers==4.41.2
+jupyter
+pandas
+torch 
+protobuf
+tokenizers
+scikit-learn
+setuptools 
+wheel
+accelerate
+peft
+datasets
+bitsandbytes
+sentencepiece

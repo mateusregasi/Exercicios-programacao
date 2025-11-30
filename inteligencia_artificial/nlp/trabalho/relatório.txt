@@ -1,0 +1,9 @@
+18/11
+Iniciei o trabalho. Estou pesquisando com usar o hugging face para implementar classificação.
+
+Inicialmente minha ideia foi usar o DistilBERT como modelo pois:
+- Ouvi falar que ele é rápido.
+- Ele é razoávelmente acuráz pelo tamanho.
+Desisti de usar pois:
+- Ele é treinado com teaching baseado no próprio BERT.
+- Ele não leva em consideração letras maiúsculas, que pode ser útil para o modelo conseguir perceber informação de sentimento nas frases.

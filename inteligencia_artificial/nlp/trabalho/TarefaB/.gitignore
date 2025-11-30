@@ -1,0 +1,9 @@
+model-tk
+outputs
+qwen-fine-tuned
+qwen-lora
+modelo_taskB
+.venv
+.ipynb_checkpoints
+pretrained_data.json
+model-pt

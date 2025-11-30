@@ -4,6 +4,7 @@ from pygame.locals import *
 from conf import WINDOW_SIZE, WIDTH, HEIGHT
 from ball import Ball
 from mouse import Mouse
+from rectangle import Rectangle
 
 class Game:
 
@@ -12,6 +13,15 @@ class Game:
         self._init_window()
         self.ball = Ball(WIDTH/2, HEIGHT/2)
         self.mouse = Mouse()
+
+        rectangle_sizeX = 300
+        rectangle_sizeY = 30
+        self.floor = Rectangle(
+            WIDTH/2 - rectangle_sizeX/2,
+            HEIGHT - rectangle_sizeY - 10,
+            rectangle_sizeX,
+            rectangle_sizeY
+        )
 
     def _init_window(self):
         self.window = pygame.display.set_mode(WINDOW_SIZE)
@@ -43,8 +53,10 @@ class Game:
     def update(self):
         self.mouse.update()
         self.ball.update()
+        self.floor.update()
 
     def draw(self):
         self.window.fill((0,0,0))
         self.ball.draw(self.window)
+        self.floor.draw(self.window)
         pygame.display.update()
