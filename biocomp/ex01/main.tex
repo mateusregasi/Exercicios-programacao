@@ -1,0 +1,118 @@
+\documentclass{report}
+
+\usepackage{algpseudocode}
+\usepackage{hyperref}
+
+\title{Exercício 1 - Palíndromos de RNA}
+\author{Mateus Regasi Gomes Martins}
+\date{\today}
+
+
+\begin{document}
+
+\begin{titlepage}  
+  
+% faculdade no topo  
+\begin{center}  
+UNIVERSIDADE FEDERAL FLUMINENSE - UFF
+\end{center}  
+  
+\vspace{8cm}  
+  
+% título central  
+\begin{center}  
+{  
+EXERCÍCIO 1 - PALÍNDROMOS DE DNA
+}  
+\end{center}  
+  
+\vspace{1cm}  
+  
+% nome deslocado para direita  
+\begin{flushright}  
+MATEUS REGASI GOMES MARTINS
+\end{flushright}  
+  
+\vfill  
+  
+% data no fundo  
+\begin{center}  
+NITEROI -- RJ\\  
+2026  
+\end{center}  
+  
+\end{titlepage}
+
+\section{INTRODUÇÃO}
+O seguinte texto é um relatório concernente a implementação de um algoritmo que identifica palíndromos de bases nitrogenadas em sequências de DNA realizado pela disciplina de Biologia Computacional.
+
+\section{PALÍNDROMO DE DNA}
+Seja $\Sigma = \{A,T,C,G\}$ e seja uma string $S \in \Sigma^*$ uma sequência de DNA arbitrária que pode ser decomposta em $S=a_1a_2\dots a_n$ onde $a_i$ são as bases nitrogenadas. Seja $C(S)$ a operação de complemento das bases nitrogenadas, de maneira que $C(S) = \overline{a_1}\overline{a_2}\dots\overline{a_n}$ e que $\overline A = T$, $\overline{T} = A$, $\overline{C} = G$ e $\overline{G} = C$. Seja $S^{-1}$ a operação de inversão na sequência de DNA, de maneira que $S^{-1} = a_na_{n-1}a_{n-2}\dots a_2 a_1$.
+
+Uma sequência de bases nitrogenadas S é dita ser um palíndromo se, e somente se, $C(S^{-1}) = S$. 
+
+\section{ALGORITMO}
+Seja um arquivo $E$ composto por $n$ entradas de tamanho $m$, de maneira que $E = E_1, E_2, \dots, E_n$. Seja $E_i^{(j)}$ o caractere encontrado na posição $j$ da entrada $E_i$. Seja $L=[(i_0,j_0), (i_1,j_1), \dots, (i_p,j_p)]$ uma lista composta por trechos de DNA contendo posição inicial $i$ e posição final $j$ dos palíndromos. Seja $K$ o limite inferior do tamanho da cadeia dentro de $L$.
+
+Assim, seque o seguinte algoritmo:
+
+\begin{algorithmic}
+\While{$\forall E_i \in E$}
+    \State $E_i \gets$ leia a entrada.
+    \State $L \gets$ cria a lista de trechos de DNA
+    \State $l \gets 0$
+    \While{$l \le m$}
+        \If{$E_i^{l} = \overline(E_i^{l+1})$}
+            \State $i \gets l$;
+            \State $j \gets l+1$;
+            
+            \While{$i > 0 \land j < m-1 \land E_i^{i-1} = E_i^{j+1}$}
+                \State $i \gets i-1$
+                \State $j \gets j+1$
+            \EndWhile
+
+            \If{$j - i + 1 \geq K$}
+                \State $L \gets L + (i, j)$
+            \EndIf
+        \EndIf
+    \EndWhile
+    
+    \While{$\forall (i,j) \in L$}
+        \If{$(i_{l-1} \leq i_l \land j_{l-1} \geq j_l) \lor (i_{l+1} \leq i_l \land j_{l+1} \geq j_l)$}
+            \State $L \gets L - (i,j)$
+        \EndIf
+    \EndWhile
+
+\EndWhile
+\end{algorithmic}
+
+\section{RESULTADOS}
+\subsection{MAIOR PALÍNDROMO ENCONTRADO}
+Dentro das sequências propostas foram encontradas diferentes palíndromos. A primeira sequência proposta foram duas sequências:
+
+ACTATCCGCGTTTTTTCCAAAGTGAGCAAAAATGAAAGCTACGATCCCCCCCCCCTGAAGTTATATG
+AGTGTTTTTGATAGAGCGTAAATATAAAACGTTTTATAGCCGTAATCGAAAAGCGCGATACTAAAAAAAAAACTATGAAAAAAAACTCTTG
+
+Foi necessário definir $K = 91$ e completar o restante da primeira fita com espaços (para ficar com exatamente 91 caracteres). Obtem-se o seguinte trecho: TATAAAACGTTTTATA (i=22, j=37) de tamanho 16.
+
+Já para a database proposta (Maribacter sp HTCC2170\footnote{Em: \url{https://www.ncbi.nlm.nih.gov/genbank/samplerecord}}) foi rodado o algoritmo em toda a base de dados. Encontrou-se na linha 25030 um palíndromo de tamanho 40 presente no trecho (i=19, j=58): TTATCGATGAACTACACAATATTGTGTAGTTCATCGATAA
+
+
+
+\subsection{ENZIMAS DE RESTRIÇÃO}
+
+Dentre as sequências encontradas no primeiro e curto dataset, foram encontradas\footnote{Encontradas em: \url{https://www.cellco.com.br/}} algumas enzimas de restrição que são capazes de dividir o DNA com essas bases nitrogenadas:
+
+\begin{enumerate} 
+	\item CGCG é cortado por Mbol e BssHII
+	\item AGCT é cortado por Hind III 
+	\item GATC é cortado por BamH I, Xba I, Nhe I e Mbol 
+	\item GCGC é cortado por Mlul
+\end{enumerate}
+
+\subsection{Repositório}
+
+Repositório presente no Github em: \url{https://github.com/mateusregasi/Exercicios-programacao/tree/main/biocomp/ex01/ex01.c}
+
+
+\end{document}
