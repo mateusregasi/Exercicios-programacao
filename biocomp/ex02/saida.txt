@@ -1,0 +1,192 @@
+---
+Grampo 1 achado em:
+- Posição: 137
+- Tam. Pescoço: 6
+- Tam. Cabeça: 6
+Formato:
+
+GTAAAC
+||||||ACCGAC
+CATTTG
+---
+
+---
+Grampo 2 achado em:
+- Posição: 393
+- Tam. Pescoço: 6
+- Tam. Cabeça: 4
+Formato:
+
+TTTTCA
+||||||CTCT
+AAAAGT
+---
+
+---
+Grampo 3 achado em:
+- Posição: 977
+- Tam. Pescoço: 6
+- Tam. Cabeça: 6
+Formato:
+
+ATCATA
+||||||TTGGAT
+TAGTAT
+---
+
+---
+Grampo 4 achado em:
+- Posição: 1446
+- Tam. Pescoço: 6
+- Tam. Cabeça: 4
+Formato:
+
+TTGTTG
+||||||AAGA
+AACAAC
+---
+
+---
+Grampo 5 achado em:
+- Posição: 1563
+- Tam. Pescoço: 6
+- Tam. Cabeça: 4
+Formato:
+
+AATATG
+||||||ATGC
+TTATAC
+---
+
+---
+Grampo 6 achado em:
+- Posição: 2227
+- Tam. Pescoço: 6
+- Tam. Cabeça: 5
+Formato:
+
+AAATGC
+||||||ACTGG
+TTTACG
+---
+
+---
+Grampo 7 achado em:
+- Posição: 2372
+- Tam. Pescoço: 6
+- Tam. Cabeça: 6
+Formato:
+
+CCTTTC
+||||||TATGTT
+GGAAAG
+---
+
+---
+Grampo 8 achado em:
+- Posição: 2674
+- Tam. Pescoço: 6
+- Tam. Cabeça: 5
+Formato:
+
+CCAACA
+||||||CAAAT
+GGTTGT
+---
+
+---
+Grampo 9 achado em:
+- Posição: 4171
+- Tam. Pescoço: 6
+- Tam. Cabeça: 6
+Formato:
+
+TTTGAT
+||||||TGAAGA
+AAACTA
+---
+
+---
+Grampo 10 achado em:
+- Posição: 4172
+- Tam. Pescoço: 6
+- Tam. Cabeça: 4
+Formato:
+
+TTGATT
+||||||GAAG
+AACTAA
+---
+
+---
+Grampo 11 achado em:
+- Posição: 4182
+- Tam. Pescoço: 6
+- Tam. Cabeça: 5
+Formato:
+
+AATCAA
+||||||AAGGC
+TTAGTT
+---
+
+---
+Grampo 12 achado em:
+- Posição: 6181
+- Tam. Pescoço: 6
+- Tam. Cabeça: 5
+Formato:
+
+TAAATT
+||||||TAATA
+ATTTAA
+---
+
+---
+Grampo 13 achado em:
+- Posição: 8287
+- Tam. Pescoço: 6
+- Tam. Cabeça: 6
+Formato:
+
+GTTTAA
+||||||AGAGCT
+CAAATT
+---
+
+---
+Grampo 14 achado em:
+- Posição: 8288
+- Tam. Pescoço: 6
+- Tam. Cabeça: 4
+Formato:
+
+TTTAAA
+||||||GAGC
+AAATTT
+---
+
+---
+Grampo 15 achado em:
+- Posição: 9521
+- Tam. Pescoço: 6
+- Tam. Cabeça: 5
+Formato:
+
+AGGAAC
+||||||CAATA
+TCCTTG
+---
+
+---
+Grampo 16 achado em:
+- Posição: 9678
+- Tam. Pescoço: 6
+- Tam. Cabeça: 6
+Formato:
+
+ACAAAA
+||||||AACTCG
+TGTTTT
+---
+
